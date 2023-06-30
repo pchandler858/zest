@@ -1,3 +1,4 @@
+import { Navigate } from "react-router-dom";
 import { ThemeContext, useMode } from "./theme";
 import { ThemeProvider, CssBaseline } from "@mui/material";
 import { Routes, Route } from "react-router-dom";
@@ -17,7 +18,7 @@ import SignUp from "./pages/sign-up";
 function App() {
   const { colorMode, theme } = useMode();
 
-  const isAuthenticated = true;
+  const isAuthenticated = false;
 
   return (
     <ThemeContext.Provider value={colorMode}>
@@ -31,16 +32,49 @@ function App() {
               <Route
                 path="/"
                 element={isAuthenticated ? <Dashboard /> : <SignIn />}
-              />{" "}
-              <Route path="/applications" element={<Applications />} />
-              <Route path="/contacts" element={<Contacts />} />
-              <Route path="/form" element={<Form />} />
-              <Route path="/calendar" element={<Calendar />} />
-              <Route path="/bar" element={<Bar />} />
-              <Route path="/line" element={<Line />} />
-              <Route path="/pie" element={<Pie />} />
-              <Route path="/signIn" element={<SignIn />} />
-              <Route path="/signUp" element={<SignUp />} />
+              />
+              <Route
+                path="/applications"
+                element={
+                  isAuthenticated ? <Applications /> : <Navigate to="/signIn" />
+                }
+              />
+              <Route
+                path="/contacts"
+                element={
+                  isAuthenticated ? <Contacts /> : <Navigate to="/signIn" />
+                }
+              />
+              <Route
+                path="/form"
+                element={isAuthenticated ? <Form /> : <Navigate to="/signIn" />}
+              />
+              <Route
+                path="/calendar"
+                element={
+                  isAuthenticated ? <Calendar /> : <Navigate to="/signIn" />
+                }
+              />
+              <Route
+                path="/bar"
+                element={isAuthenticated ? <Bar /> : <Navigate to="/signIn" />}
+              />
+              <Route
+                path="/line"
+                element={isAuthenticated ? <Line /> : <Navigate to="/signIn" />}
+              />
+              <Route
+                path="/pie"
+                element={isAuthenticated ? <Pie /> : <Navigate to="/signIn" />}
+              />
+              <Route
+                path="/signIn"
+                element={!isAuthenticated ? <SignIn /> : <Navigate to="/" />}
+              />
+              <Route
+                path="/signUp"
+                element={!isAuthenticated ? <SignUp /> : <Navigate to="/" />}
+              />
             </Routes>
           </main>
         </div>
