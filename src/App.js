@@ -17,7 +17,7 @@ import SignUp from "./pages/sign-up";
 function App() {
   const { colorMode, theme } = useMode();
 
-  const isAuthenticated = true;
+  const isAuthenticated = false;
 
   return (
     <ThemeContext.Provider value={colorMode}>
