@@ -17,16 +17,13 @@ import SignUp from "./pages/sign-up";
 function App() {
   const { colorMode, theme } = useMode();
 
-  const isAuthenticated = false;
+  const isAuthenticated = true;
 
   return (
     <ThemeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-          {/* <Sidebar />
-          <main className="content">
-            <Topbar /> */}
           {isAuthenticated ? <Sidebar /> : null}
           <main className="content">
             {isAuthenticated ? <Topbar /> : null}
