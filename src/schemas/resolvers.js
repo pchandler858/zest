@@ -1,23 +1,30 @@
-const { AuthenticationError } = require('apollo-server-express');
-const { User } = require('../models');
-const { signToken } = require('../utils/auth');
+const { AuthenticationError } = require("apollo-server-express");
+const { User } = require("../models");
+const { signToken } = require("../utils/auth");
 
 const resolvers = {
   Query: {
-    // users: async () => {
-    //   return User.find().populate('thoughts');
-    // },
-    // user: async (parent, { username }) => {
-    //   return User.findOne({ username }).populate('thoughts');
-    // },
-    // thoughts: async (parent, { username }) => {
-    //   const params = username ? { username } : {};
-    //   return Thought.find(params).sort({ createdAt: -1 });
-    // },
-    // thought: async (parent, { thoughtId }) => {
-    //   return Thought.findOne({ _id: thoughtId });
-    // },
+    users: async () => {
+      return User.find();
+    },
+    user: async (parent, { username }) => {
+      return User.findOne({ username });
+    },
   },
+  // users: async () => {
+  //   return User.find().populate('thoughts');
+  // },
+  // user: async (parent, { username }) => {
+  //   return User.findOne({ username }).populate('thoughts');
+  // },
+  // thoughts: async (parent, { username }) => {
+  //   const params = username ? { username } : {};
+  //   return Thought.find(params).sort({ createdAt: -1 });
+  // },
+  // thought: async (parent, { thoughtId }) => {
+  //   return Thought.findOne({ _id: thoughtId });
+  // },
+  // },
 
   Mutation: {
     addUser: async (parent, { username, email, password }) => {
@@ -34,7 +41,7 @@ const resolvers = {
 
       // If there is no user with that email address, return an Authentication error stating so
       if (!user) {
-        throw new AuthenticationError('No user found with this email address');
+        throw new AuthenticationError("No user found with this email address");
       }
 
       // If there is a user found, execute the `isCorrectPassword` instance method and check if the correct password was provided
@@ -42,7 +49,7 @@ const resolvers = {
 
       // If the password is incorrect, return an Authentication error stating so
       if (!correctPw) {
-        throw new AuthenticationError('Incorrect credentials');
+        throw new AuthenticationError("Incorrect credentials");
       }
 
       // If email and password are correct, sign user into the application with a JWT
@@ -55,4 +62,3 @@ const resolvers = {
 };
 
 module.exports = resolvers;
-
