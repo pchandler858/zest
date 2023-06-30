@@ -11,19 +11,30 @@ import Calendar from "./pages/calendar";
 import Bar from "./pages/bar";
 import Line from "./pages/line";
 import Pie from "./pages/pie";
+import SignIn from "./pages/sign-in";
+import SignUp from "./pages/sign-up";
 
 function App() {
   const { colorMode, theme } = useMode();
+
+  const isAuthenticated = false;
+
   return (
     <ThemeContext.Provider value={colorMode}>
       <ThemeProvider theme={theme}>
         <CssBaseline />
         <div className="app">
-          <Sidebar />
+          {/* <Sidebar />
           <main className="content">
-            <Topbar />
+            <Topbar /> */}
+          {isAuthenticated ? <Sidebar /> : null}
+          <main className="content">
+            {isAuthenticated ? <Topbar /> : null}
             <Routes>
-              <Route path="/" element={<Dashboard />} />
+              <Route
+                path="/"
+                element={isAuthenticated ? <Dashboard /> : <SignIn />}
+              />{" "}
               <Route path="/applications" element={<Applications />} />
               <Route path="/contacts" element={<Contacts />} />
               <Route path="/form" element={<Form />} />
@@ -31,6 +42,8 @@ function App() {
               <Route path="/bar" element={<Bar />} />
               <Route path="/line" element={<Line />} />
               <Route path="/pie" element={<Pie />} />
+              <Route path="/signIn" element={<SignIn />} />
+              <Route path="/signUp" element={<SignUp />} />
             </Routes>
           </main>
         </div>
