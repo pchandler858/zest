@@ -6,12 +6,16 @@ const typeDefs = gql`
     username: String
     email: String
     password: String
-    thoughts: [Thought]!
+    # thoughts: [Thought]!
   }
 
   type Auth {
     token: ID!
     user: User
+  }
+  type Query {
+    user(username: String!): User
+    users: [User]!
   }
 
   type Mutation {

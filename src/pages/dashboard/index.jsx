@@ -1,5 +1,5 @@
 // dashboard page
-import { Box, Button, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import { tokens } from "../../theme";
 import CodeIcon from "@mui/icons-material/Code";
 import HandshakeIcon from "@mui/icons-material/Handshake";
