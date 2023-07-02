@@ -6,7 +6,39 @@ const typeDefs = gql`
     username: String
     email: String
     password: String
-    # thoughts: [Thought]!
+    # contacts: [Contacts]!
+    # applications: [Applications]!
+    # calendar: [Calendar]!
+    # projects: [Projects]!
+  }
+  type Contacts {
+    _id: ID
+    name: String
+    phone: String
+    email: String
+    age: Number
+    address: String
+  }
+  type Applications {
+    _id: ID 
+    businessName: String
+    appliedOn: String
+    phoneNumber: String
+    email: String
+  }
+  type Calendar {
+    _id: ID
+    todo: String
+    date: Date
+  }
+  type Projects {
+    _id: ID
+    name: String
+    description: String
+    status: String
+    startDate: Date
+    endDate: Date
+    url: String
   }
 
   type Auth {
