@@ -47,8 +47,8 @@ const client = new ApolloClient({
 function App() {
   const { colorMode, theme } = useMode();
 
-  const isAuthenticated = Auth.loggedIn();
-  // const isAuthenticated = true;
+  // const isAuthenticated = Auth.loggedIn();
+  const isAuthenticated = true;
 
   return (
     <ApolloProvider client={client}>
