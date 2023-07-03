@@ -2,9 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const { ApolloServer } = require("apollo-server-express");
 const path = require("path");
-const { authMiddleware } = require("./src/utils/auth");
-const { typeDefs, resolvers } = require("./src/schemas");
-const db = require("./src/config/connection");
+const { authMiddleware } = require("../client/src/utils/auth");
+const { typeDefs, resolvers } = require("./schemas");
+const db = require("./config/connection");
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 const PORT = process.env.PORT || 3001;
