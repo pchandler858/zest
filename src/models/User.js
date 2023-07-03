@@ -29,6 +29,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  // profilePicture: {
+  //   type: String,
+  //   default: "",
+  // },
 });
 
 // set up pre-save middleware to create password
