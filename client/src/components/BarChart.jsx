@@ -1,7 +1,7 @@
 import { useTheme } from "@mui/material";
 import { tokens } from "../theme";
 import { ResponsiveBar } from "@nivo/bar";
-import { seedBarData as data } from "../data/seedData";
+import { seedLineData as data } from "../data/seedData";
 
 const BarChart = ({ isDashboard = false }) => {
   const theme = useTheme();
