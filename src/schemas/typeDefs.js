@@ -1,4 +1,7 @@
-const { gql } = require('apollo-server-express');
+const { gql } = require("apollo-server-express");
+
+// PC ~ changed types "Date" to "String" to avoid errors. GQL doesn't have a Date type.
+// PC ~ changed "Number" to "Int" to avoid errors. GQL doesn't have a Number type.
 
 const typeDefs = gql`
   type User {
@@ -16,11 +19,11 @@ const typeDefs = gql`
     name: String
     phone: String
     email: String
-    age: Number
+    age: Int
     address: String
   }
   type Applications {
-    _id: ID 
+    _id: ID
     businessName: String
     appliedOn: String
     phoneNumber: String
@@ -29,15 +32,15 @@ const typeDefs = gql`
   type Calendar {
     _id: ID
     todo: String
-    date: Date
+    date: String
   }
   type Projects {
     _id: ID
     name: String
     description: String
     status: String
-    startDate: Date
-    endDate: Date
+    startDate: String
+    endDate: String
     url: String
   }
 
@@ -54,6 +57,6 @@ const typeDefs = gql`
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
   }
-  `;
+`;
 
 module.exports = typeDefs;
