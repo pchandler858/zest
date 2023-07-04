@@ -63,9 +63,29 @@ const Topbar = () => {
         </Link>
         {/* <IconButton></IconButton> */}
         {loggedIn && (
-          <IconButton onClick={handleLogout}>
-            <LogoutOutlinedIcon />
-          </IconButton>
+          <>
+            <IconButton onClick={() => setOpenDialog(true)}>
+              <LogoutOutlinedIcon />
+            </IconButton>
+            <Dialog
+              open={openDialog}
+              onClose={() => setOpenDialog(false)}
+              aria-labelledby="alert-dialog-title"
+              aria-describedby="alert-dialog-description"
+            >
+              <DialogContent>
+                <DialogContentText id="alert-dialog-description">
+                  Are you sure you want to log out?
+                </DialogContentText>
+              </DialogContent>
+              <DialogActions>
+                <Button onClick={() => setOpenDialog(false)} sx={{ color: colors.greenAccent[600] }}>Cancel</Button>
+                <Button onClick={handleLogout} color="primary" autoFocus sx={{ color: colors.greenAccent[600] }} >
+                  Logout
+                </Button>
+              </DialogActions>
+            </Dialog>
+          </>
         )}
       </Box>
     </Box>
