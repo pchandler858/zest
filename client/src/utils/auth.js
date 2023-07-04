@@ -12,7 +12,9 @@ class AuthService {
   }
 
   isTokenExpired(token) {
+    console.log(token);
     // Decode the token to get its expiration time that was set by the server
+    console.log(decode);
     const decoded = decode(token);
     // If the expiration time is less than the current time (in seconds), the token is expired and we return `true`
     if (decoded.exp < Date.now() / 1000) {

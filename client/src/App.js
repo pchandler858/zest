@@ -22,7 +22,7 @@ import {
   createHttpLink,
 } from "@apollo/client";
 import { setContext } from "@apollo/client/link/context";
-// import Auth from "../../server/utils/auth";
+import Auth from "../src/utils/auth";
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
@@ -47,8 +47,8 @@ const client = new ApolloClient({
 function App() {
   const { colorMode, theme } = useMode();
 
-  // const isAuthenticated = Auth.loggedIn();
-  const isAuthenticated = true;
+  const isAuthenticated = Auth.loggedIn();
+  // const isAuthenticated = true;
 
   return (
     <ApolloProvider client={client}>

@@ -70,7 +70,7 @@ export default function SignIn() {
       const { data } = await login({
         variables: { ...formState },
       });
-
+      console.log(Auth);
       Auth.login(data.login.token);
     } catch (e) {
       console.error(e);
