@@ -25,6 +25,15 @@ class AuthService {
     return false;
   }
 
+  isUserLoggedIn() {
+    const token = this.getToken();
+    if (token) {
+      const decoded = decode(token);
+      return !(decoded.exp < Date.now() / 1000);
+    }
+    return false;
+  }
+
   getToken() {
     return localStorage.getItem("id_token");
   }
