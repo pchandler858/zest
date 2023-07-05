@@ -16,6 +16,7 @@ import { Link } from "react-router-dom";
 import { useMutation } from "@apollo/client";
 import { LOGIN_USER } from "../../utils/mutations";
 import Auth from "../../utils/auth";
+import { motion } from "framer-motion";
 
 function Copyright(props) {
   return (
@@ -85,6 +86,25 @@ export default function SignIn() {
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
+      <motion.div
+        initial={{ opacity: 0, y: -500, scale: 0.5, rotate: 360 }}
+        animate={{ opacity: 1, y: 0, scale: 1, rotate: 0 }}
+        transition={{
+          type: "tween",
+          duration: 1,
+          ease: "easeInOut",
+          when: "beforeChildren",
+        }}
+        style={{
+          marginTop: "3rem",
+          textAlign: "center",
+          color: colors.greenAccent[600],
+          fontSize: "8rem",
+          fontFamily: "'Special Elite', cursive",
+        }}
+      >
+        zest
+      </motion.div>
       <Box
         sx={{
           marginTop: 8,
