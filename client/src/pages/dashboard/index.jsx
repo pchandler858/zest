@@ -41,6 +41,7 @@ const Dashboard = () => {
           alignItems="center"
           justifyContent="center"
           maxWidth="500px"
+          minWidth="150px"
         >
           <StatBox
             title="45"
@@ -63,6 +64,8 @@ const Dashboard = () => {
           alignItems="center"
           justifyContent="center"
           maxWidth="500px"
+          minWidth="150px"
+
         >
           <StatBox
             title="6"
@@ -85,6 +88,8 @@ const Dashboard = () => {
           alignItems="center"
           justifyContent="center"
           maxWidth="500px"
+          minWidth="150px"
+
         >
           <StatBox
             title="1"
