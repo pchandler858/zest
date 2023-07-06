@@ -22,6 +22,7 @@ const projectsSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  // might want to switch this to boolean
   status: {
     type: String,
     required: true,

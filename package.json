@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/pchandler858/Project-3#readme",
   "dependencies": {
-    "concurrently": "^8.2.0"
+    "concurrently": "^8.2.0",
+    "jwt-decode": "^2.2.0"
   }
 }
