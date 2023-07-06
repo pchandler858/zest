@@ -63,13 +63,13 @@ const typeDefs = gql`
   type Mutation {
     addUser(username: String!, email: String!, password: String!): Auth
     login(email: String!, password: String!): Auth
-    addProject(name: String!, description: String!, startDate: Date!, endDate: Date!, status: String!, url: String!): Projects
+    addProject(name: String!, description: String!, startDate: String!, endDate: String!, status: String!, url: String!): Projects
     addContact(name: String!, phone: String!, email: String!, age: Int!, address: String!): Contacts
     addApplication(businessName: String!, appliedOn: String!, phoneNumber: String!, email: String!): Applications
-    updateProject(name: String!, description: String!, startDate: Date!, endDate: Date!, status: String!, url: String!): Projects
+    updateProject(name: String!, description: String!, startDate: String!, endDate: String!, status: String!, url: String!): Projects
     updateContact(name: String!, phone: String!, email: String!, age: Int!, address: String!): Contacts
     updateApplication(businessName: String!, appliedOn: String!, phoneNumber: String!, email: String!): Applications
-    removeProject(name: String!, description: String!, startDate: Date!, endDate: Date!, status: String!, url: String!): Projects
+    removeProject(name: String!, description: String!, startDate: String!, endDate: String!, status: String!, url: String!): Projects
     removeContact(name: String!, phone: String!, email: String!, age: Int!, address: String!): Contacts
     removeApplication(businessName: String!, appliedOn: String!, phoneNumber: String!, email: String!): Applications
   }
