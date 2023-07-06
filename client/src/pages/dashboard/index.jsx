@@ -15,7 +15,7 @@ import Stack from "@mui/material/Stack";
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const isSmallScreen = useMediaQuery("(min-width: 480px)");
+  const isSmallScreen = useMediaQuery("(max-width: 600px)");
 
   return (
     <Box m="20px">
@@ -27,20 +27,20 @@ const Dashboard = () => {
       {/* GRID & CHARTS */}
       <Box
         display="grid"
-        gridTemplateColumns="repeat(12, 1fr)"
+        gridTemplateColumns={isSmallScreen ? "1fr" : "repeat(12, 1fr)"}
         gridAutoRows="140px"
         gap="20px"
       >
         {/* ROW 1 */}
+
+        {/* BOX 1 ~ NUMBER OF APPLICATIONS */}
         <Box
-          gridColumn="span 4"
+          gridColumn={isSmallScreen ? "1 / span 12" : "span 4"}
           backgroundColor={colors.primary[400]}
           display="flex"
           alignItems="center"
           justifyContent="center"
-          // sx={{
-          //   gridColumn: { xs: '8', sm: '12',},
-          // }}
+          maxWidth="500px"
         >
           <StatBox
             title="45"
@@ -54,16 +54,15 @@ const Dashboard = () => {
             }
           />
         </Box>
-        
+
+        {/* BOX 2 ~ NUMBER OF PROJECTS */}
         <Box
-          gridColumn="span 4"
+          gridColumn={isSmallScreen ? "1 / span 12" : "span 4"}
           backgroundColor={colors.primary[400]}
           display="flex"
           alignItems="center"
           justifyContent="center"
-          // sx={{
-          //   gridColumn: { xs: '8', sm: '12',},
-          // }}
+          maxWidth="500px"
         >
           <StatBox
             title="6"
@@ -77,15 +76,15 @@ const Dashboard = () => {
             }
           />
         </Box>
+
+        {/* BOX 3 ~ NUMBER OF INTERVIEWS */}
         <Box
-          gridColumn="span 4"
+          gridColumn={isSmallScreen ? "1 / span 12" : "span 4"}
           backgroundColor={colors.primary[400]}
           display="flex"
           alignItems="center"
           justifyContent="center"
-          // sx={{
-          //   gridColumn: { xs: '8', sm: '12',},
-          // }}
+          maxWidth="500px"
         >
           <StatBox
             title="1"
@@ -99,15 +98,14 @@ const Dashboard = () => {
             }
           />
         </Box>
-        
 
         {/* ROW 2 */}
         <Box
           gridColumn="span 8" // Adjust gridColumn based on screen size
-          gridRow= "span 2" // Adjust gridRow based on screen size
+          gridRow="span 2" // Adjust gridRow based on screen size
           backgroundColor={colors.primary[400]}
           sx={{
-            display: { xs: 'none', sm: 'none', md: "block", lg: "block" },
+            display: { xs: "none", sm: "none", md: "block", lg: "block" },
           }}
         >
           <Box
@@ -145,7 +143,7 @@ const Dashboard = () => {
           backgroundColor={colors.primary[400]}
           p="30px"
           sx={{
-            display: { xs: 'none', sm: 'none', md: "block", lg: "block" },
+            display: { xs: "none", sm: "none", md: "block", lg: "block" },
           }}
         >
           <Typography variant="h5" fontWeight="600">
@@ -173,7 +171,7 @@ const Dashboard = () => {
           gridRow="span 2"
           backgroundColor={colors.primary[400]}
           sx={{
-            display: { xs: 'none', sm: 'none', md: "block", lg: "block" },
+            display: { xs: "none", sm: "none", md: "block", lg: "block" },
           }}
         >
           <Typography
