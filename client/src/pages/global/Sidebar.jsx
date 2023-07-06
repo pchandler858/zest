@@ -14,6 +14,7 @@ import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutl
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 
+
 import FormDialog from "../../components/FormDialog";
 
 const Item = ({title, to, icon, selected, setSelected}) => {
@@ -30,8 +31,9 @@ const Item = ({title, to, icon, selected, setSelected}) => {
 const Sidebar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isCollapsed, setIsCollapsed] = useState(true);
   const [selected, setSelected] = useState("Dashboard");
+  
 
   const [open, setOpen] = useState(false);
 
@@ -67,10 +69,11 @@ const Sidebar = () => {
           {/* logo and menu button */}
           <MenuItem
             onClick={() => setIsCollapsed(!isCollapsed)}
-            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
+            icon={isCollapsed ? <MenuOutlinedIcon sx={{display: { xs: "none", sm: "none", md: "block", lg: "block"},}}/> : undefined}
             sx={{
               margin: "10px 0 20px 0",
               color: colors.grey[100],
+              
             }}>
             {!isCollapsed && (
               <Box display="flex" justifyContent="space-between" alignItems="center" ml="15px">
