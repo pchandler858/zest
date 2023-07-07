@@ -1,23 +1,20 @@
 const db = require("../config/connection");
-const { User } = require("../models/Index");
+const { User } = require("../models/index");
 
 const userSeeds = [
   {
-    username: "testuser1",
     email: "testuser1@example.com",
     password: "password123",
     firstName: "Test",
     lastName: "User1",
   },
   {
-    username: "testuser2",
     email: "testuser2@example.com",
     password: "password123",
     firstName: "Test",
     lastName: "User2",
   },
   {
-    username: "testuser3",
     email: "testuser3@example.com",
     password: "password123",
     firstName: "Test",
