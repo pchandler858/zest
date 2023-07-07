@@ -181,13 +181,13 @@ const Sidebar = () => {
               setSelected={setSelected}
             />
 
-            <Item
+            {/* <Item
               title="Profile"
               to="/form"
               icon={<PersonOutlinedIcon />}
               selected={selected}
-              setSelected={setSelected}
-            />
+                setSelected={setSelected} */}
+          
             <Item
               title="Calendar"
               to="/calendar"
