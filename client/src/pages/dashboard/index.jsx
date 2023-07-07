@@ -1,5 +1,5 @@
 // dashboard page
-import { Box, Typography, useTheme } from "@mui/material";
+import { Box, Typography, useTheme, useMediaQuery } from "@mui/material";
 import { tokens } from "../../theme";
 import CodeIcon from "@mui/icons-material/Code";
 import HandshakeIcon from "@mui/icons-material/Handshake";
@@ -12,10 +12,15 @@ import ProgressCircle from "../../components/ProgressCircle";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Stack from "@mui/material/Stack";
 
+
 const Dashboard = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
+<<<<<<< Updated upstream
   const isSmallScreen = useMediaQuery("(max-width: 600px)");
+=======
+  const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
+>>>>>>> Stashed changes
 
   return (
     <Box m="20px">
@@ -106,8 +111,13 @@ const Dashboard = () => {
 
         {/* ROW 2 */}
         <Box
+<<<<<<< Updated upstream
           gridColumn="span 8" // Adjust gridColumn based on screen size
           gridRow="span 2" // Adjust gridRow based on screen size
+=======
+          gridColumn={isSmallScreen ? "span 12" : "span 8"} // Adjust gridColumn based on screen size
+          gridRow={isSmallScreen ? "auto" : "span 2"} // Adjust gridRow based on screen size
+>>>>>>> Stashed changes
           backgroundColor={colors.primary[400]}
           sx={{
             display: { xs: "none", sm: "none", md: "block", lg: "block" },

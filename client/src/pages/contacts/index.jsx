@@ -1,9 +1,10 @@
-import { Box } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme.js";
 import { seedDataContacts } from "../../data/seedData";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
+import { Link } from "react-router-dom"
 
 const Contacts = () => {
   const theme = useTheme();
@@ -87,6 +88,16 @@ const Contacts = () => {
           },
         }}
       >
+        <Box mb={2}>
+          <Button
+          component={Link}
+          to="/form"
+            variant="contained"
+            color="primary"
+            >
+            Add New Contact
+            </Button>
+        </Box>
         <DataGrid
           rows={seedDataContacts}
           columns={columns}
