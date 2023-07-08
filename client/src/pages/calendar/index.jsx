@@ -28,7 +28,9 @@ const Calendar = () => {
   const [addEvent] = useMutation(ADD_EVENT, {
     refetchQueries: [{ query: GET_EVENTS }],
   });
-  const [deleteEvent] = useMutation(DELETE_EVENT);
+  const [deleteEvent] = useMutation(DELETE_EVENT, {
+    refetchQueries: [{ query: GET_EVENTS }],
+  });
   const [currentEvents, setCurrentEvents] = useState([]);
 
   useEffect(() => {
@@ -58,10 +60,13 @@ const Calendar = () => {
   const handleEventClick = async (clicked) => {
     if (
       window.confirm(
-        `Are you sure you want to delete the event '${clicked.event.todo}'?`
+        `Are you sure you want to delete the event '${clicked.event.title}'?`
       )
     ) {
-      await deleteEvent({ variables: { id: clicked.event.id } });
+      console.log(clicked.event.id);
+      const { data } = await deleteEvent({
+        variables: { id: clicked.event.id },
+      });
     }
   };
 

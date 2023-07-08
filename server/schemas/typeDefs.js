@@ -35,6 +35,9 @@ const typeDefs = gql`
     todo: String
     date: String
   }
+  type DeletedEvent {
+    _id: ID
+  }
   type Projects {
     _id: ID
     name: String
@@ -133,6 +136,7 @@ const typeDefs = gql`
       email: String!
     ): Applications
     addCalendarEvent(todo: String!, date: String!): Calendar
+    deleteEvent(id: ID!): DeletedEvent
   }
 `;
 
