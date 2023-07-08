@@ -35,6 +35,9 @@ const typeDefs = gql`
     todo: String
     date: String
   }
+  type DeletedEvent {
+    _id: ID
+  }
   type Projects {
     _id: ID
     name: String
@@ -56,23 +59,84 @@ const typeDefs = gql`
     contact(contactsId: ID!): Contacts
     applications: [Applications]!
     application(applicationsId: ID!): Applications
-    calendar: [Calendar]!
+    calendars: [Calendar]!
     projects: [Projects]!
     project(projectsId: ID!): Projects
   }
 
   type Mutation {
-    addUser(firstName: String!, lastName: String!, email: String!, password: String!): Auth
+    addUser(
+      firstName: String!
+      lastName: String!
+      email: String!
+      password: String!
+    ): Auth
     login(email: String!, password: String!): Auth
-    addProject(name: String!, description: String!, startDate: String!, endDate: String!, status: String!, url: String!): Projects
-    addContact(name: String!, phone: String!, email: String!, age: Int!, address: String!): Contacts
-    addApplication(businessName: String!, appliedOn: String!, phoneNumber: String!, email: String!): Applications
-    updateProject(name: String!, description: String!, startDate: String!, endDate: String!, status: String!, url: String!): Projects
-    updateContact(name: String!, phone: String!, email: String!, age: Int!, address: String!): Contacts
-    updateApplication(businessName: String!, appliedOn: String!, phoneNumber: String!, email: String!): Applications
-    removeProject(name: String!, description: String!, startDate: String!, endDate: String!, status: String!, url: String!): Projects
-    removeContact(name: String!, phone: String!, email: String!, age: Int!, address: String!): Contacts
-    removeApplication(businessName: String!, appliedOn: String!, phoneNumber: String!, email: String!): Applications
+    addProject(
+      name: String!
+      description: String!
+      startDate: String!
+      endDate: String!
+      status: String!
+      url: String!
+    ): Projects
+    addContact(
+      name: String!
+      phone: String!
+      email: String!
+      age: Int!
+      address: String!
+    ): Contacts
+    addApplication(
+      businessName: String!
+      appliedOn: String!
+      phoneNumber: String!
+      email: String!
+    ): Applications
+    updateProject(
+      name: String!
+      description: String!
+      startDate: String!
+      endDate: String!
+      status: String!
+      url: String!
+    ): Projects
+    updateContact(
+      name: String!
+      phone: String!
+      email: String!
+      age: Int!
+      address: String!
+    ): Contacts
+    updateApplication(
+      businessName: String!
+      appliedOn: String!
+      phoneNumber: String!
+      email: String!
+    ): Applications
+    removeProject(
+      name: String!
+      description: String!
+      startDate: String!
+      endDate: String!
+      status: String!
+      url: String!
+    ): Projects
+    removeContact(
+      name: String!
+      phone: String!
+      email: String!
+      age: Int!
+      address: String!
+    ): Contacts
+    removeApplication(
+      businessName: String!
+      appliedOn: String!
+      phoneNumber: String!
+      email: String!
+    ): Applications
+    addCalendarEvent(todo: String!, date: String!): Calendar
+    deleteEvent(id: ID!): DeletedEvent
   }
 `;
 

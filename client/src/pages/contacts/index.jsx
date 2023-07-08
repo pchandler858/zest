@@ -5,6 +5,7 @@ import { seedDataContacts } from "../../data/seedData";
 import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
 
 const Contacts = () => {
   const theme = useTheme();
@@ -12,7 +13,6 @@ const Contacts = () => {
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "registrarId", headerName: "Registrar ID" },
     {
       field: "name",
       headerName: "Name",
@@ -20,11 +20,10 @@ const Contacts = () => {
       cellClassName: "name-column--cell",
     },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
+      field: "companyName",
+      headerName: "Company Name",
+      flex: 1, // flex: 1 is the same as flex-grow: 1 and flex-shrink: 1, combined.
+      cellClassName: "companyName-column--cell",
     },
     {
       field: "phone",
@@ -44,6 +43,11 @@ const Contacts = () => {
     {
       field: "city",
       headerName: "City",
+      flex: 1,
+    },
+    {
+      field: "state",
+      headerName: "State",
       flex: 1,
     },
     {
@@ -88,22 +92,21 @@ const Contacts = () => {
           },
         }}
       >
-             <Box mb={2}>
+        <Box display="flex" justifyContent="start" mb="20px">
           <Button
-          component={Link}
-          to="/form"
+            component={Link}
+            to="/form"
             variant="contained"
-            color="primary"
-            >
+            color="secondary"
+          >
             Add New Contact
-            </Button>
+          </Button>
         </Box>
         <DataGrid
           rows={seedDataContacts}
           columns={columns}
           components={{ Toolbar: GridToolbar }}
         />
-        
       </Box>
     </Box>
   );

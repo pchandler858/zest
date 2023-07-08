@@ -5,6 +5,7 @@ const path = require("path");
 const { authMiddleware } = require("../client/src/utils/auth");
 const { typeDefs, resolvers } = require("./schemas");
 const db = require("./config/connection");
+const bodyParser = require("body-parser");
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 const PORT = process.env.PORT || 3001;

@@ -32,10 +32,6 @@ function Copyright(props) {
   );
 }
 
-// TODO remove, this demo shouldn't need to reset the theme.
-
-// const defaultTheme = createTheme();
-
 export default function SignUp() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
@@ -52,8 +48,6 @@ export default function SignUp() {
   //   });
   // };
 
-  // The handleChange function updates the formState value for the name
-  // property to the value entered by the user in the form.
   const handleChange = (event) => {
     const {name, value} = event.target;
 
