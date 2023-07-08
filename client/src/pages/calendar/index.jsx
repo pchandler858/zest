@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import FullCalendar from "@fullcalendar/react";
-import { formatDate } from "@fullcalendar/core";
 import dayGridPlugin from "@fullcalendar/daygrid";
-import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
+import timeGridPlugin from "@fullcalendar/timegrid";
+
 import listPlugin from "@fullcalendar/list";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
@@ -17,6 +17,7 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import moment from "moment";
 
 const Calendar = () => {
   const theme = useTheme();
@@ -24,19 +25,25 @@ const Calendar = () => {
 
   // Apollo hooks
   const { loading, error, data } = useQuery(GET_EVENTS);
-  const [addEvent] = useMutation(ADD_EVENT);
+  const [addEvent] = useMutation(ADD_EVENT, {
+    refetchQueries: [{ query: GET_EVENTS }],
+  });
   const [deleteEvent] = useMutation(DELETE_EVENT);
+  const [currentEvents, setCurrentEvents] = useState([]);
 
-  // Handle loading and error states
+  useEffect(() => {
+    if (data && data.calendars) {
+      setCurrentEvents(data.calendars);
+    }
+  }, [data]);
+
   if (loading) return "Loading...";
   if (error) return `Error: ${error.message}`;
 
-  // todo: convert to Modal
   const handleDateClick = async (selected) => {
-    console.log(selected);
     const todo = prompt("Please enter the title of your event");
     const calendarApi = selected.view.calendar;
-    calendarApi.unselect(); // clear date selection
+    calendarApi.unselect();
 
     if (todo) {
       await addEvent({
@@ -58,6 +65,11 @@ const Calendar = () => {
     }
   };
 
+  const formatDate = (dateString) => {
+    const date = moment(parseInt(dateString, 10)).utcOffset("+00:00");
+    return date.isValid() ? date.format("MMMM DD, YYYY") : "Invalid Date";
+  };
+
   return (
     <Box m="20px">
       <Header title="Calendar" subtitle="Manage your events" />
@@ -72,10 +84,10 @@ const Calendar = () => {
           <Typography variant="h6">Events</Typography>
           <List>
             {data &&
-              data.events &&
-              data.events.map((event) => (
+              data.calendars &&
+              data.calendars.map((event) => (
                 <ListItem
-                  key={event.id}
+                  key={event._id}
                   sx={{
                     backgroundColor: colors.greenAccent[500],
                     margin: "10px 0",
@@ -83,16 +95,8 @@ const Calendar = () => {
                   }}
                 >
                   <ListItemText
-                    primary={event.title}
-                    secondary={
-                      <Typography>
-                        {formatDate(new Date(event.start), {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        })}
-                      </Typography>
-                    }
+                    primary={event.todo}
+                    secondary={formatDate(event.date)}
                   />
                 </ListItem>
               ))}
@@ -120,8 +124,16 @@ const Calendar = () => {
             dayMaxEvents={true}
             select={handleDateClick}
             eventClick={handleEventClick}
-            // eventsSet={(events) => setEvents(events)}
-            events={data ? data.events : []}
+            events={currentEvents.map((event) => ({
+              id: event._id,
+              title: event.todo,
+              start: moment(parseInt(event.date, 10))
+                .utcOffset("+00:00")
+                .format("YYYY-MM-DD"),
+              end: moment(parseInt(event.date, 10))
+                .utcOffset("+00:00")
+                .format("YYYY-MM-DD"),
+            }))}
           />
         </Box>
       </Box>
