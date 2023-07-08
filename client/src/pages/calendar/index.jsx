@@ -5,6 +5,10 @@ import dayGridPlugin from "@fullcalendar/daygrid";
 import timeGridPlugin from "@fullcalendar/timegrid";
 import interactionPlugin from "@fullcalendar/interaction";
 import listPlugin from "@fullcalendar/list";
+import Header from "../../components/Header";
+import { tokens } from "../../theme";
+import { GET_EVENTS, ADD_EVENT, DELETE_EVENT } from "../../utils/mutations";
+import { useQuery, useMutation } from "@apollo/client";
 import {
   Box,
   List,
@@ -13,38 +17,44 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import Header from "../../components/Header";
-import { tokens } from "../../theme";
 
 const Calendar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [events, setEvents] = useState([]);
+
+  // Apollo hooks
+  const { loading, error, data } = useQuery(GET_EVENTS);
+  const [addEvent] = useMutation(ADD_EVENT);
+  const [deleteEvent] = useMutation(DELETE_EVENT);
+
+  // Handle loading and error states
+  if (loading) return "Loading...";
+  if (error) return `Error: ${error.message}`;
 
   // todo: convert to Modal
-  const handleDateClick = (selected) => {
-    const title = prompt("Please enter the title of your event");
+  const handleDateClick = async (selected) => {
+    console.log(selected);
+    const todo = prompt("Please enter the title of your event");
     const calendarApi = selected.view.calendar;
     calendarApi.unselect(); // clear date selection
 
-    if (title) {
-      calendarApi.addEvent({
-        id: `${selected.dateStr}-${title}`,
-        title,
-        start: selected.startStr,
-        end: selected.endStr,
-        allDay: selected.allDay,
+    if (todo) {
+      await addEvent({
+        variables: {
+          todo,
+          date: selected.startStr,
+        },
       });
     }
   };
 
-  const handleEventClick = (clicked) => {
+  const handleEventClick = async (clicked) => {
     if (
       window.confirm(
-        `Are you sure you want to delete the event '${clicked.event.title}'?`
+        `Are you sure you want to delete the event '${clicked.event.todo}'?`
       )
     ) {
-      clicked.event.remove();
+      await deleteEvent({ variables: { id: clicked.event.id } });
     }
   };
 
@@ -61,29 +71,31 @@ const Calendar = () => {
         >
           <Typography variant="h6">Events</Typography>
           <List>
-            {events.map((event) => (
-              <ListItem
-                key={event.id}
-                sx={{
-                  backgroundColor: colors.greenAccent[500],
-                  margin: "10px 0",
-                  borderRadius: "2px",
-                }}
-              >
-                <ListItemText
-                  primary={event.title}
-                  secondary={
-                    <Typography>
-                      {formatDate(event.start, {
-                        year: "numeric",
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </Typography>
-                  }
-                />
-              </ListItem>
-            ))}
+            {data &&
+              data.events &&
+              data.events.map((event) => (
+                <ListItem
+                  key={event.id}
+                  sx={{
+                    backgroundColor: colors.greenAccent[500],
+                    margin: "10px 0",
+                    borderRadius: "2px",
+                  }}
+                >
+                  <ListItemText
+                    primary={event.title}
+                    secondary={
+                      <Typography>
+                        {formatDate(new Date(event.start), {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })}
+                      </Typography>
+                    }
+                  />
+                </ListItem>
+              ))}
           </List>
         </Box>
         {/* calendar */}
@@ -108,11 +120,8 @@ const Calendar = () => {
             dayMaxEvents={true}
             select={handleDateClick}
             eventClick={handleEventClick}
-            eventsSet={(events) => setEvents(events)}
-            initialEvents={[
-              { id: "1", title: "event 1", date: "2023-06-15" },
-              { id: "2", title: "event 2", date: "2023-06-30" },
-            ]}
+            // eventsSet={(events) => setEvents(events)}
+            events={data ? data.events : []}
           />
         </Box>
       </Box>

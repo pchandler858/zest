@@ -9,7 +9,7 @@ import Dashboard from "./pages/dashboard";
 import Applications from "./pages/applications";
 import Contacts from "./pages/contacts";
 import Form from "./pages/form";
-import Calendar from "./pages/calendar";
+import Calendar from "./pages/calendar/index";
 import Bar from "./pages/bar";
 import Line from "./pages/line";
 import Pie from "./pages/pie";
