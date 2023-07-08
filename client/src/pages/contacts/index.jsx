@@ -13,7 +13,6 @@ const Contacts = () => {
 
   const columns = [
     { field: "id", headerName: "ID", flex: 0.5 },
-    { field: "registrarId", headerName: "Registrar ID" },
     {
       field: "name",
       headerName: "Name",
@@ -21,11 +20,10 @@ const Contacts = () => {
       cellClassName: "name-column--cell",
     },
     {
-      field: "age",
-      headerName: "Age",
-      type: "number",
-      headerAlign: "left",
-      align: "left",
+      field: "companyName",
+      headerName: "Company Name",
+      flex: 1, // flex: 1 is the same as flex-grow: 1 and flex-shrink: 1, combined.
+      cellClassName: "companyName-column--cell",
     },
     {
       field: "phone",
@@ -45,6 +43,11 @@ const Contacts = () => {
     {
       field: "city",
       headerName: "City",
+      flex: 1,
+    },
+    {
+      field: "state",
+      headerName: "State",
       flex: 1,
     },
     {

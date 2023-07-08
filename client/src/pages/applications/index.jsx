@@ -11,28 +11,48 @@ const Applications = () => {
   const columns = [
     { field: "id", headerName: "ID" },
     {
-      field: "name",
-      headerName: "Name",
-      flex: 1, // flex: 1 is the same as flex-grow: 1 and flex-shrink: 1, combined.
-      cellClassName: "name-column--cell",
-    },
-    {
-      field: "age",
-      headerName: "Age",
-      type: "number",
+      field: "dateApplied",
+      headerName: "Date Applied",
+      type: "date",
+      flex: 1,
       headerAlign: "left",
       align: "left",
     },
     {
-      field: "phone",
-      headerName: "Phone Number",
-      flex: 1,
+      field: "companyName",
+      headerName: "Company Name",
+      flex: 1, // flex: 1 is the same as flex-grow: 1 and flex-shrink: 1, combined.
+      cellClassName: "companyName-column--cell",
     },
     {
-      field: "email",
-      headerName: "Email",
-      flex: 1,
+      field: "position",
+      headerName: "Position",
+      flex: 1, // flex: 1 is the same as flex-grow: 1 and flex-shrink: 1, combined.
+      cellClassName: "companyName-column--cell",
     },
+    {
+      field: "name",
+      headerName: "Contact Person",
+      flex: 1, 
+      cellClassName: "contactPerson-column--cell",
+    },
+    // {
+    //   field: "followUps",
+    //   headerName: "Follow Ups",
+    //   type: "number",
+    //   headerAlign: "left",
+    //   align: "left",
+    // },
+    // {
+    //   field: "phone",
+    //   headerName: "Phone Number",
+    //   flex: 1,
+    // },
+    // {
+    //   field: "email",
+    //   headerName: "Email",
+    //   flex: 1,
+    // },
   ];
 
   return (
