@@ -7,7 +7,7 @@
     "client": "npm start --prefix client",
     "server": "npm start --prefix server",
     "develop": "concurrently \"npm run server\" \"npm run client\"",
-    "postinstall": "npm install --prefix server && npm install --prefix client",
+    "postinstall": "npm install server && npm install client",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "node ./server/seeders/seed.js"
   },
@@ -23,7 +23,9 @@
   },
   "homepage": "https://github.com/pchandler858/Project-3#readme",
   "dependencies": {
+    "client": "^0.0.1",
     "concurrently": "^8.2.0",
-    "jwt-decode": "^2.2.0"
+    "jwt-decode": "^2.2.0",
+    "server": "^1.0.38"
   }
 }

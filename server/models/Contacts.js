@@ -1,7 +1,17 @@
 const { Schema, model, mongoose } = require("mongoose");
 
 const contactsSchema = new mongoose.Schema({
-    name: {
+    firstName: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    lastName: {
+        type: String,
+        required: true,
+        trim: true,
+    },
+    companyName: {
         type: String,
         required: true,
         trim: true,
@@ -18,12 +28,12 @@ const contactsSchema = new mongoose.Schema({
         trim: true,
         match: [/.+@.+\..+/, "Must match an email address!"],
     },
-    age: {
-        type: Number,
+    address1: {
+        type: String,
         required: false,
-        trim: true,
+        trim: false,
     },
-    address: {
+    address2: {
         type: String,
         required: false,
         trim: false,

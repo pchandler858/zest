@@ -1,5 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User, Calendar } = require("../models");
+const { User, Calendar, Contacts } = require("../models");
 const { signToken } = require("../auth/auth");
 const { ObjectId } = require("mongodb");
 
@@ -60,6 +60,10 @@ const resolvers = {
     deleteEvent: async (parent, { id }, context) => {
       const deleted = await Calendar.findByIdAndRemove(new ObjectId(id));
       return { id: deleted._id };
+    },
+    addContact: async (parent, { firstName, lastName, companyName, phone, email, address1, address2 }) => {
+      const contact = await Contacts.create({ firstName, lastName, companyName, phone, email, address1, address2 });
+      return contact;
     },
   },
 };
