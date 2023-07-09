@@ -135,14 +135,14 @@ const Calendar = () => {
             height="75vh"
             plugins={[
               dayGridPlugin,
-              timeGridPlugin,
-              interactionPlugin,
-              listPlugin,
+              // timeGridPlugin,
+              // interactionPlugin,
+              // listPlugin,
             ]}
             headerToolbar={{
               left: "prev,next today",
               center: "title",
-              right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
+              // right: "dayGridMonth,timeGridWeek,timeGridDay,listWeek",
             }}
             initialView="dayGridMonth"
             editable={true}
