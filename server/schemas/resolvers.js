@@ -11,8 +11,11 @@ const resolvers = {
     user: async (parent, { email }) => {
       return User.findOne({ email });
     },
-    calendars: async () => {
-      return Calendar.find();
+    calendars: async (parent, args, context) => {
+      if (!context.user) {
+        throw new AuthenticationError("You need to be logged in!");
+      }
+      return Calendar.find({ user: context.user._id });
     },
   },
   // users: async () => {
@@ -53,16 +56,40 @@ const resolvers = {
 
       return { token, user };
     },
-    addCalendarEvent: async (parent, { todo, date }) => {
-      const event = await Calendar.create({ todo, date });
+    addCalendarEvent: async (parent, { todo, date }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError("You need to be logged in!");
+      }
+      const event = await Calendar.create({
+        todo,
+        date,
+        user: context.user._id,
+      });
       return event;
     },
     deleteEvent: async (parent, { id }, context) => {
-      const deleted = await Calendar.findByIdAndRemove(new ObjectId(id));
+      if (!context.user) {
+        throw new AuthenticationError("You need to be logged in!");
+      }
+      const deleted = await Calendar.findOneAndRemove({
+        _id: new ObjectId(id),
+        user: context.user._id,
+      });
       return { id: deleted._id };
     },
-    addContact: async (parent, { firstName, lastName, companyName, phone, email, address1, address2 }) => {
-      const contact = await Contacts.create({ firstName, lastName, companyName, phone, email, address1, address2 });
+    addContact: async (
+      parent,
+      { firstName, lastName, companyName, phone, email, address1, address2 }
+    ) => {
+      const contact = await Contacts.create({
+        firstName,
+        lastName,
+        companyName,
+        phone,
+        email,
+        address1,
+        address2,
+      });
       return contact;
     },
   },
