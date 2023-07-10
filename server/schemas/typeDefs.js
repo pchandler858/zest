@@ -17,11 +17,13 @@ const typeDefs = gql`
   }
   type Contacts {
     _id: ID
-    name: String
+    firstName: String
+    lastName: String
+    companyName: String
     phone: String
     email: String
-    age: Int
-    address: String
+    address1: String
+    address2: String
   }
   type Applications {
     _id: ID
@@ -81,11 +83,13 @@ const typeDefs = gql`
       url: String!
     ): Projects
     addContact(
-      name: String!
-      phone: String!
-      email: String!
-      age: Int!
-      address: String!
+    firstName: String!
+    lastName: String!
+    companyName: String!
+    phone: String!
+    email: String!
+    address1: String!
+    address2: String!
     ): Contacts
     addApplication(
       businessName: String!
@@ -102,11 +106,13 @@ const typeDefs = gql`
       url: String!
     ): Projects
     updateContact(
-      name: String!
-      phone: String!
-      email: String!
-      age: Int!
-      address: String!
+    firstName: String!
+    lastName: String!
+    companyName: String!
+    phone: String!
+    email: String!
+    address1: String!
+    address2: String!
     ): Contacts
     updateApplication(
       businessName: String!
@@ -123,11 +129,13 @@ const typeDefs = gql`
       url: String!
     ): Projects
     removeContact(
-      name: String!
-      phone: String!
-      email: String!
-      age: Int!
-      address: String!
+    firstName: String!
+    lastName: String!
+    companyName: String!
+    phone: String!
+    email: String!
+    address1: String!
+    address2: String!
     ): Contacts
     removeApplication(
       businessName: String!

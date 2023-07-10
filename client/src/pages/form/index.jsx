@@ -1,48 +1,48 @@
 import { Box, Button, TextField } from "@mui/material";
 import { Formik } from "formik";
-import * as yup from "yup";
+import * as React from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
+import { ADD_CONTACT } from "../../utils/mutations";
+import { useMutation } from "@apollo/client";
+import { useState } from "react";
 
 const initialValues = {
   firstName: "",
   lastName: "",
+  companyName: "",
   email: "",
-  contact: "",
+  phone: "",
   address1: "",
   address2: "",
 };
 
 const phoneRegExp = /^(\+0?1\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
 
-const userSchema = yup.object().shape({
-  firstName: yup.string().required("First Name is required"),
-  lastName: yup.string().required("Last Name is required"),
-  email: yup
-    .string()
-    .email("invalid email address")
-    .required("Email is required"),
-  contact: yup
-    .string()
-    .matches(phoneRegExp, "Phone number is not valid")
-    .required("Contact is required"),
-  address1: yup.string().required("Address is required"),
-  address2: yup.string().required("Address is required"),
-});
 
-const Form = () => {
+const Form =  () => {
   const isNotMobile = useMediaQuery("(min-width: 600px)");
-  const handleFormSubmit = (values) => {
-    console.log(values);
+  const [formState, setFormState] = useState(initialValues)
+  const [addContact, {error, data}] = useMutation(ADD_CONTACT);
+  const handleFormSubmit = async (values) => {
+    console.log(formState);
+    try { 
+      const { data } = await addContact({
+        variables: {
+          ...formState, 
+        },
+      })
+    } catch (e) {
+      console.error(e);
+    }
   };
   return (
     <Box m="20px">
-      <Header title="Create User" subtitle="Create new user Profile" />
+      <Header title="Create Contact" subtitle="Create new lead!" />
 
       <Formik
         onSubmit={handleFormSubmit}
         initialValues={initialValues}
-        validationSchema={userSchema}
       >
         {({
           values,
@@ -91,6 +91,19 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
+                label="Company Name"
+                onBlur={handleBlur}
+                onChange={handleChange}
+                value={values.companyName}
+                name="companyName"
+                error={!!touched.companyName && !!errors.companyName}
+                helperText={touched.companyName && errors.companyName}
+                sx={{ gridColumn: "span 4" }}
+              />
+              <TextField
+                fullWidth
+                variant="filled"
+                type="text"
                 label="Email"
                 onBlur={handleBlur}
                 onChange={handleChange}
@@ -104,13 +117,13 @@ const Form = () => {
                 fullWidth
                 variant="filled"
                 type="text"
-                label="Contact Number"
+                label="Phone Number"
                 onBlur={handleBlur}
                 onChange={handleChange}
-                value={values.contact}
-                name="contact"
-                error={!!touched.contact && !!errors.contact}
-                helperText={touched.contact && errors.contact}
+                value={values.phone}
+                name="phone"
+                error={!!touched.phone && !!errors.phone}
+                helperText={touched.phone && errors.phone}
                 sx={{ gridColumn: "span 4" }}
               />
               <TextField
@@ -141,7 +154,7 @@ const Form = () => {
               />
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
-              <Button type="submit" color="secondary" variant="contained">
+              <Button type="submit" color="secondary" variant="contained" value="Submit">
                 Create New Contact
               </Button>
             </Box>

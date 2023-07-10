@@ -61,3 +61,18 @@ export const DELETE_EVENT = gql`
     }
   }
 `;
+
+export const ADD_CONTACT = gql`
+  mutation addContact($name: String!, $email: String!, $phone: String!, $companyName: String!, $address: String!, ) {
+    addContact(name: $name, email: $email, phone: $phone, companyName: $companyName, address: $address,) {
+      _id
+      firstName
+      lastName
+      email
+      phone
+      companyName
+      address1
+      address2
+    }   
+  } 
+`;
