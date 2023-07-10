@@ -34,7 +34,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 const Sidebar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
   const [open, setOpen] = useState(false);
@@ -187,7 +187,7 @@ const Sidebar = () => {
               icon={<PersonOutlinedIcon />}
               selected={selected}
                 setSelected={setSelected} */}
-          
+
             <Item
               title="Calendar"
               to="/calendar"
