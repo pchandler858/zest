@@ -1,6 +1,6 @@
-const { mongoose } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
-const calendarSchema = new mongoose.Schema({
+const calendarSchema = new Schema({
   todo: {
     type: String,
     required: true,
@@ -9,8 +9,13 @@ const calendarSchema = new mongoose.Schema({
     type: Date,
     required: true,
   },
+  user: {
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
-const Calendar = mongoose.model("Calendar", calendarSchema);
+const Calendar = model("Calendar", calendarSchema);
 
 module.exports = Calendar;
