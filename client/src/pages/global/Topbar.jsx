@@ -39,8 +39,7 @@ const Topbar = () => {
       <Box
         display="flex"
         backgroundColor={colors.primary[400]}
-        borderRadius="3px"
-      >
+        borderRadius="3px">
         <InputBase sx={{ ml: 2, flex: 1 }} placeholder="Search" />
         <IconButton type="button" sx={{ p: 1 }}>
           <SearchIcon />
@@ -56,11 +55,6 @@ const Topbar = () => {
             <LightModeOutlinedIcon />
           )}
         </IconButton>
-        <Link to="/contactForm">
-          <IconButton>
-            <PersonOutlinedIcon />
-          </IconButton>
-        </Link>
         {/* <IconButton></IconButton> */}
         {loggedIn && (
           <>
@@ -71,16 +65,23 @@ const Topbar = () => {
               open={openDialog}
               onClose={() => setOpenDialog(false)}
               aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description"
-            >
+              aria-describedby="alert-dialog-description">
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
                   Are you sure you want to log out?
                 </DialogContentText>
               </DialogContent>
               <DialogActions>
-                <Button onClick={() => setOpenDialog(false)} sx={{ color: colors.greenAccent[600] }}>Cancel</Button>
-                <Button onClick={handleLogout} color="primary" autoFocus sx={{ color: colors.greenAccent[600] }} >
+                <Button
+                  onClick={() => setOpenDialog(false)}
+                  sx={{ color: colors.greenAccent[600] }}>
+                  Cancel
+                </Button>
+                <Button
+                  onClick={handleLogout}
+                  color="primary"
+                  autoFocus
+                  sx={{ color: colors.greenAccent[600] }}>
                   Logout
                 </Button>
               </DialogActions>

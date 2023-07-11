@@ -1,7 +1,7 @@
 const { Schema, model, mongoose } = require("mongoose");
 const bcrypt = require("bcryptjs");
 const contactsSchema = require("./Contacts");
-
+const applicationSchema = require("./Applications");
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -25,7 +25,8 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
-  contacts:[contactsSchema],
+  contacts: [contactsSchema],
+  applications: [applicationSchema],
   // profilePicture: {
   //   type: String,
   //   default: "",

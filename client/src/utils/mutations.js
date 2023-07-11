@@ -66,3 +66,15 @@ export const ADD_CONTACT = gql`
     }   
   } 
 `;
+
+export const ADD_APPLICATION = gql`
+  mutation addApplication($_id:ID!, $appliedOn: String, $companyName: String, $position: String!, $contactName: String!) {
+    addApplication(_id:$_id, appliedOn: $appliedOn, companyName: $companyName, position: $position, contactName: $contactName) {
+      id
+      appliedOn
+      contactName
+      companyName
+      position
+    }   
+  } 
+`;

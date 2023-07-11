@@ -26,3 +26,17 @@ export const GET_CONTACTS = gql`
     }
   }
 `;
+
+export const GET_APPLICATIONS = gql`    
+  query GetApplications($_id: ID!) {
+    applications(_id: $_id) {
+      applications {
+        id
+        appliedOn
+        contactName
+        companyName
+        position
+    }
+    }
+  }
+`;

@@ -1,15 +1,28 @@
-import { Box, useTheme } from "@mui/material";
+import { Button, Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme.js";
 import { seedData } from "../../data/seedData.js";
 import Header from "../../components/Header.jsx";
+import { Link } from "react-router-dom";
+import { GET_APPLICATIONS } from "../../utils/queries.js";
+import { useQuery } from "@apollo/client";
+import AUTH from "../../utils/auth.js";
 
 const Applications = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
+  const { loading, data } = useQuery(GET_APPLICATIONS, {
+    variables: {
+      _id: AUTH.getProfile().data._id,
+    },
+  });
+  console.log(data);
+  const applications = data?.applications.applications || [];
+  console.log(applications);
+
   const columns = [
-    { field: "id", headerName: "ID" },
+    // { field: "id", headerName: "ID" },
     {
       field: "dateApplied",
       headerName: "Date Applied",
@@ -33,7 +46,7 @@ const Applications = () => {
     {
       field: "name",
       headerName: "Contact Person",
-      flex: 1, 
+      flex: 1,
       cellClassName: "contactPerson-column--cell",
     },
     // {
@@ -85,9 +98,17 @@ const Applications = () => {
             borderTip: "none",
             backgroundColor: colors.blueAccent[700],
           },
-        }}
-      >
-        <DataGrid rows={seedData} columns={columns} />
+        }}>
+        <Box display="flex" justifyContent="start" mb="20px">
+          <Button
+            component={Link}
+            to="/applicationForm"
+            variant="contained"
+            color="secondary">
+            Add New Application
+          </Button>
+        </Box>
+        <DataGrid rows={applications} columns={columns} />
       </Box>
     </Box>
   );
