@@ -10,13 +10,13 @@ const typeDefs = gql`
     lastName: String
     email: String
     password: String
-    # contacts: [Contacts]!
+    contacts: [Contacts]
     # applications: [Applications]!
     # calendar: [Calendar]!
     # projects: [Projects]!
   }
   type Contacts {
-    _id: ID
+    id: ID
     firstName: String
     lastName: String
     companyName: String
@@ -55,9 +55,9 @@ const typeDefs = gql`
     user: User
   }
   type Query {
-    user(email: String!): User
+    user(_id: String!): User
     users: [User]!
-    contacts: [Contacts]!
+    contacts(_id: ID!): User!
     contact(contactsId: ID!): Contacts
     applications: [Applications]!
     application(applicationsId: ID!): Applications
@@ -83,13 +83,14 @@ const typeDefs = gql`
       url: String!
     ): Projects
     addContact(
-    firstName: String!
-    lastName: String!
+    _id: ID!
+    firstName: String
+    lastName: String
     companyName: String!
     phone: String!
     email: String!
-    address1: String!
-    address2: String!
+    address1: String
+    address2: String
     ): Contacts
     addApplication(
       businessName: String!

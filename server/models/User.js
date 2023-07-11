@@ -1,5 +1,7 @@
 const { Schema, model, mongoose } = require("mongoose");
 const bcrypt = require("bcryptjs");
+const contactsSchema = require("./Contacts");
+
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -23,6 +25,7 @@ const userSchema = new mongoose.Schema({
     required: true,
     trim: true,
   },
+  contacts:[contactsSchema],
   // profilePicture: {
   //   type: String,
   //   default: "",

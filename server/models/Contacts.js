@@ -1,14 +1,14 @@
-const { Schema, model, mongoose } = require("mongoose");
+const { Schema, model } = require("mongoose");
 
-const contactsSchema = new mongoose.Schema({
+const contactsSchema = new Schema({
     firstName: {
         type: String,
-        required: true,
+        required: false,
         trim: true,
     },
     lastName: {
         type: String,
-        required: true,
+        required: false,
         trim: true,
     },
     companyName: {
@@ -38,8 +38,12 @@ const contactsSchema = new mongoose.Schema({
         required: false,
         trim: false,
     },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: "User",
+        required: true,
+    },
 });
 
-const Contacts = mongoose.model("Contacts", contactsSchema);
 
-module.exports = Contacts;
+module.exports = contactsSchema;
