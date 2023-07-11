@@ -103,7 +103,7 @@ const Contacts =  () => {
         <Box display="flex" justifyContent="start" mb="20px">
           <Button
             component={Link}
-            to="/form"
+            to="/contactForm"
             variant="contained"
             color="secondary"
           >

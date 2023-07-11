@@ -8,7 +8,7 @@ import Sidebar from "./pages/global/Sidebar";
 import Dashboard from "./pages/dashboard";
 import Applications from "./pages/applications";
 import Contacts from "./pages/contacts";
-import Form from "./pages/form";
+import ContactForm from "./pages/contactForm";
 import Calendar from "./pages/calendar/index";
 import Bar from "./pages/bar";
 import Line from "./pages/line";
@@ -82,9 +82,9 @@ function App() {
                     }
                   />
                   <Route
-                    path="/form"
+                    path="/contactForm"
                     element={
-                      isAuthenticated ? <Form /> : <Navigate to="/signIn" />
+                      isAuthenticated ? <ContactForm /> : <Navigate to="/signIn" />
                     }
                   />
                   <Route
