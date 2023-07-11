@@ -34,16 +34,6 @@ export const ADD_USER = gql`
   }
 `;
 
-export const GET_EVENTS = gql`
-  query GetEvents {
-    calendars {
-      _id
-      todo
-      date
-    }
-  }
-`;
-
 export const ADD_EVENT = gql`
   mutation AddEvent($todo: String!, $date: String!) {
     addCalendarEvent(todo: $todo, date: $date) {
@@ -63,9 +53,9 @@ export const DELETE_EVENT = gql`
 `;
 
 export const ADD_CONTACT = gql`
-  mutation addContact($name: String!, $email: String!, $phone: String!, $companyName: String!, $address: String!, ) {
-    addContact(name: $name, email: $email, phone: $phone, companyName: $companyName, address: $address,) {
-      _id
+  mutation addContact($_id:ID!, $firstName: String, $lastName: String, $email: String!, $phone: String!, $companyName: String!, $address1: String, $address2: String,) {
+    addContact(_id:$_id, firstName: $firstName, lastName: $lastName, email: $email, phone: $phone, companyName: $companyName, address1: $address1, address2: $address2,) {
+      id
       firstName
       lastName
       email

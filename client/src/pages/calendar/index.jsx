@@ -6,7 +6,8 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
-import { GET_EVENTS, ADD_EVENT, DELETE_EVENT } from "../../utils/mutations";
+import {  ADD_EVENT, DELETE_EVENT } from "../../utils/mutations";
+import { GET_EVENTS } from "../../utils/queries";
 import { useQuery, useMutation } from "@apollo/client";
 import {
   Box,

@@ -6,16 +6,34 @@ import Header from "../../components/Header";
 import { useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
+import { GET_CONTACTS } from "../../utils/queries.js";
+import { useQuery } from "@apollo/client";
+import { useState } from "react";
+import AUTH from "../../utils/auth";
 
-const Contacts = () => {
+
+const Contacts =  () => {
+  const { loading, data } = useQuery(GET_CONTACTS, {
+    variables: {
+      _id: AUTH.getProfile().data._id,
+    }
+  });
   const theme = useTheme();
+  console.log(data);
   const colors = tokens(theme.palette.mode);
-
+  const contacts = data?.contacts.contacts || [];
+  console.log(contacts);
   const columns = [
-    { field: "id", headerName: "ID", flex: 0.5 },
+    // { field: "id", headerName: "ID", flex: 0.5 },
     {
-      field: "name",
-      headerName: "Name",
+      field: "firstName",
+      headerName: "First Name",
+      flex: 1, // flex: 1 is the same as flex-grow: 1 and flex-shrink: 1, combined.
+      cellClassName: "name-column--cell",
+    },
+    {
+      field: "lastName",
+      headerName: "Last Name",
       flex: 1, // flex: 1 is the same as flex-grow: 1 and flex-shrink: 1, combined.
       cellClassName: "name-column--cell",
     },
@@ -36,23 +54,13 @@ const Contacts = () => {
       flex: 1,
     },
     {
-      field: "address",
-      headerName: "Address",
+      field: "address1",
+      headerName: "Address 1",
       flex: 1,
     },
     {
-      field: "city",
-      headerName: "City",
-      flex: 1,
-    },
-    {
-      field: "state",
-      headerName: "State",
-      flex: 1,
-    },
-    {
-      field: "zipCode",
-      headerName: "Zip Code",
+      field: "address2",
+      headerName: "City, State Zip",
       flex: 1,
     },
   ];
@@ -103,7 +111,7 @@ const Contacts = () => {
           </Button>
         </Box>
         <DataGrid
-          rows={seedDataContacts}
+          rows={contacts}
           columns={columns}
           components={{ Toolbar: GridToolbar }}
         />

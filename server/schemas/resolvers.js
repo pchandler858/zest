@@ -17,6 +17,9 @@ const resolvers = {
       }
       return Calendar.find({ user: context.user._id });
     },
+    contacts: async (parent, { _id }) => {
+      return User.findOne({ _id }).populate("contacts");
+    }
   },
   // users: async () => {
   //   return User.find().populate('thoughts');
@@ -79,20 +82,27 @@ const resolvers = {
     },
     addContact: async (
       parent,
-      { firstName, lastName, companyName, phone, email, address1, address2 }
+      { firstName, lastName, companyName, phone, email, address1, address2 },  context,
     ) => {
-      const contact = await Contacts.create({
-        firstName,
-        lastName,
-        companyName,
-        phone,
-        email,
-        address1,
-        address2,
-      });
-      return contact;
+      if (!context.user) {
+        throw new AuthenticationError("You need to be logged in!");
+      }
+      const updateContacts = await User.findOneAndUpdate(
+        {_id: context.user._id},
+        {$push: {contacts: {
+          firstName,
+          lastName,
+          companyName,
+          phone,
+          email,
+          address1,
+          address2
+        }}}
+        );
+      return updateContacts;
     },
   },
 };
+
 
 module.exports = resolvers;

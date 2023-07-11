@@ -6,6 +6,7 @@ import Header from "../../components/Header";
 import { ADD_CONTACT } from "../../utils/mutations";
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
+import  AUTH  from "../../utils/auth";
 
 const initialValues = {
   firstName: "",
@@ -22,16 +23,24 @@ const phoneRegExp = /^(\+0?1\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
 
 const Form =  () => {
   const isNotMobile = useMediaQuery("(min-width: 600px)");
-  const [formState, setFormState] = useState(initialValues)
-  const [addContact, {error, data}] = useMutation(ADD_CONTACT);
+  // const [formState, setFormState] = useState(initialValues);
+  const [addContact] = useMutation(ADD_CONTACT);
   const handleFormSubmit = async (values) => {
-    console.log(formState);
+    console.log(values);
     try { 
       const { data } = await addContact({
         variables: {
-          ...formState, 
+          _id: AUTH.getProfile().data._id,
+          firstName: values.firstName,
+          lastName: values.lastName,
+          companyName: values.companyName,
+          email: values.email,
+          phone: values.phone,
+          address1: values.address1,
+          address2: values.address2   
         },
       })
+      console.log(data);
     } catch (e) {
       console.error(e);
     }
