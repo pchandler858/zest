@@ -1,5 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User, Calendar, Contacts } = require("../models");
+const { User, Calendar, Contacts, Applications } = require("../models");
 const { signToken } = require("../auth/auth");
 const { ObjectId } = require("mongodb");
 
@@ -19,7 +19,10 @@ const resolvers = {
     },
     contacts: async (parent, { _id }) => {
       return User.findOne({ _id }).populate("contacts");
-    }
+    },
+    applications: async (parent, { _id }) => {
+      return User.findOne({ _id }).populate("applications");
+    },
   },
   // users: async () => {
   //   return User.find().populate('thoughts');
@@ -82,27 +85,54 @@ const resolvers = {
     },
     addContact: async (
       parent,
-      { firstName, lastName, companyName, phone, email, address1, address2 },  context,
+      { firstName, lastName, companyName, phone, email, address1, address2 },
+      context
     ) => {
       if (!context.user) {
         throw new AuthenticationError("You need to be logged in!");
       }
       const updateContacts = await User.findOneAndUpdate(
-        {_id: context.user._id},
-        {$push: {contacts: {
-          firstName,
-          lastName,
-          companyName,
-          phone,
-          email,
-          address1,
-          address2
-        }}}
-        );
+        { _id: context.user._id },
+        {
+          $push: {
+            contacts: {
+              firstName,
+              lastName,
+              companyName,
+              phone,
+              email,
+              address1,
+              address2,
+            },
+          },
+        }
+      );
       return updateContacts;
+    },
+    addApplication: async (
+      parent,
+      { contactName, position, companyName, appliedOn },
+      context
+    ) => {
+      if (!context.user) {
+        throw new AuthenticationError("You need to be logged in!");
+      }
+      const updateApplications = await User.findOneAndUpdate(
+        { _id: context.user._id },
+        {
+          $push: {
+            applications: {
+              contactName,
+              appliedOn,
+              companyName,
+              position,
+            },
+          },
+        }
+      );
+      return updateApplications;
     },
   },
 };
-
 
 module.exports = resolvers;

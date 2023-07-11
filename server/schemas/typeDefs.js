@@ -11,7 +11,7 @@ const typeDefs = gql`
     email: String
     password: String
     contacts: [Contacts]
-    # applications: [Applications]!
+    applications: [Applications]
     # calendar: [Calendar]!
     # projects: [Projects]!
   }
@@ -26,11 +26,11 @@ const typeDefs = gql`
     address2: String
   }
   type Applications {
-    _id: ID
-    businessName: String
+    id: ID
+    companyName: String
     appliedOn: String
-    phoneNumber: String
-    email: String
+    position: String
+    contactName: String
   }
   type Calendar {
     _id: ID
@@ -59,7 +59,7 @@ const typeDefs = gql`
     users: [User]!
     contacts(_id: ID!): User!
     contact(contactsId: ID!): Contacts
-    applications: [Applications]!
+    applications(_id: ID!): User!
     application(applicationsId: ID!): Applications
     calendars: [Calendar]!
     projects: [Projects]!
@@ -83,20 +83,21 @@ const typeDefs = gql`
       url: String!
     ): Projects
     addContact(
-    _id: ID!
-    firstName: String
-    lastName: String
-    companyName: String!
-    phone: String!
-    email: String!
-    address1: String
-    address2: String
+      _id: ID!
+      firstName: String
+      lastName: String
+      companyName: String!
+      phone: String!
+      email: String!
+      address1: String
+      address2: String
     ): Contacts
     addApplication(
-      businessName: String!
-      appliedOn: String!
-      phoneNumber: String!
-      email: String!
+      _id: ID!
+      companyName: String
+      appliedOn: String
+      position: String
+      contactName: String
     ): Applications
     updateProject(
       name: String!
@@ -107,13 +108,13 @@ const typeDefs = gql`
       url: String!
     ): Projects
     updateContact(
-    firstName: String!
-    lastName: String!
-    companyName: String!
-    phone: String!
-    email: String!
-    address1: String!
-    address2: String!
+      firstName: String!
+      lastName: String!
+      companyName: String!
+      phone: String!
+      email: String!
+      address1: String!
+      address2: String!
     ): Contacts
     updateApplication(
       businessName: String!
@@ -130,13 +131,13 @@ const typeDefs = gql`
       url: String!
     ): Projects
     removeContact(
-    firstName: String!
-    lastName: String!
-    companyName: String!
-    phone: String!
-    email: String!
-    address1: String!
-    address2: String!
+      firstName: String!
+      lastName: String!
+      companyName: String!
+      phone: String!
+      email: String!
+      address1: String!
+      address2: String!
     ): Contacts
     removeApplication(
       businessName: String!

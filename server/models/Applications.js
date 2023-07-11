@@ -1,7 +1,8 @@
-const { mongoose } = require("mongoose");
+const { Schema } = require("mongoose");
 
-const applicationSchema = new mongoose.Schema({
-  businessName: {
+
+const applicationSchema = new Schema({
+  companyName: {
     type: String,
     required: true,
     trim: true,
@@ -17,23 +18,16 @@ const applicationSchema = new mongoose.Schema({
       "Must be a date format! ie: 01/01/2022",
     ],
   },
-  phoneNumber: {
+  contactName: {
     type: String,
     required: true,
     trim: true,
-    match: [
-      /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/,
-      "Must be a valid phone number!",
-    ],
   },
-  email: {
+  position: {
     type: String,
     required: true,
     trim: true,
-    match: [/.+@.+\..+/, "Must match an email address!"],
   },
 });
 
-const Applications = mongoose.model("Applications", applicationSchema);
-
-module.exports = Applications;
+module.exports = applicationSchema;

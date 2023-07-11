@@ -9,6 +9,7 @@ import Dashboard from "./pages/dashboard";
 import Applications from "./pages/applications";
 import Contacts from "./pages/contacts";
 import ContactForm from "./pages/contactForm";
+import ApplicationForm from "./pages/applicationForm";
 import Calendar from "./pages/calendar/index";
 import Bar from "./pages/bar";
 import Line from "./pages/line";
@@ -85,6 +86,12 @@ function App() {
                     path="/contactForm"
                     element={
                       isAuthenticated ? <ContactForm /> : <Navigate to="/signIn" />
+                    }
+                  />
+                  <Route
+                    path="/applicationForm"
+                    element={
+                      isAuthenticated ? <ApplicationForm /> : <Navigate to="/signIn" />
                     }
                   />
                   <Route
