@@ -21,7 +21,7 @@ const initialValues = {
 const phoneRegExp = /^(\+0?1\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
 
 
-const Form =  () => {
+const ContactForm =  () => {
   const isNotMobile = useMediaQuery("(min-width: 600px)");
   // const [formState, setFormState] = useState(initialValues);
   const [addContact] = useMutation(ADD_CONTACT);
@@ -174,4 +174,4 @@ const Form =  () => {
   );
 };
 
-export default Form;
+export default ContactForm;

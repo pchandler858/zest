@@ -56,7 +56,7 @@ const Topbar = () => {
             <LightModeOutlinedIcon />
           )}
         </IconButton>
-        <Link to="/form">
+        <Link to="/contactForm">
           <IconButton>
             <PersonOutlinedIcon />
           </IconButton>
