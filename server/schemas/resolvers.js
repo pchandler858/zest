@@ -1,5 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User, Calendar, Contacts, Applications } = require("../models");
+const { User, Calendar, Contacts, Applications, ProfilePicture } = require("../models");
 const { signToken } = require("../auth/auth");
 const { ObjectId } = require("mongodb");
 
@@ -22,6 +22,9 @@ const resolvers = {
     },
     applications: async (parent, { _id }) => {
       return User.findOne({ _id }).populate("applications");
+    },
+    profilePicture: async (parent, { _id }) => {
+      return User.findOne({ _id }).populate("profilePicture");
     },
   },
   // users: async () => {
@@ -125,6 +128,24 @@ const resolvers = {
       );
       return updateContacts;
     },
+
+    deleteContact: async (parent, { id, contactsId }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError("You need to be logged in!");
+      }
+      const deleted = await User.updateOne({
+        _id: id,
+        // user: context.user._id,
+      },
+      { $pullAll: 
+        {
+          contacts: [{_id: contactsId}],
+        }
+      },
+    );
+      return { id: deleted._id };
+    },
+
     addApplication: async (
       parent,
       { contactName, position, companyName, appliedOn },
@@ -148,6 +169,36 @@ const resolvers = {
       );
       return updateApplications;
     },
+
+    addProfilePicture: async (parent, { pictureUrl }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError("You need to be logged in!");
+      }
+      const updateProfilePicture = await User.findOneAndUpdate(
+        { _id: context.user._id },
+        {
+          $push: {
+            profilePicture: {
+              pictureUrl,
+            },
+          },
+        }
+      );
+      return updateProfilePicture;
+    },
+
+
+//     deleteApplication: async (parent, { id }, context) => {
+//       if (!context.user) {
+//         throw new AuthenticationError("You need to be logged in!");
+//       }
+//       const deleted = await applicationSchema.findOneAndRemove({
+//         _id: new ObjectId(id),
+//         user: context.user._id,
+//       });
+//       return { id: deleted._id };
+//     },
+
   },
 };
 

@@ -2,6 +2,7 @@ const { Schema, model, mongoose } = require("mongoose");
 const bcrypt = require("bcryptjs");
 const contactsSchema = require("./Contacts");
 const applicationSchema = require("./Applications");
+const profilePictureSchema = require("./ProfilePicture");
 
 const userSchema = new mongoose.Schema({
   email: {
@@ -27,10 +28,7 @@ const userSchema = new mongoose.Schema({
   },
   contacts: [contactsSchema],
   applications: [applicationSchema],
-  // profilePicture: {
-  //   type: String,
-  //   default: "",
-  // },
+  profilePicture: [profilePictureSchema],
 });
 
 // set up pre-save middleware to create password

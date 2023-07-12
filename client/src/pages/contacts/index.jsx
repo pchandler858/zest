@@ -7,6 +7,8 @@ import { useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import { GET_CONTACTS } from "../../utils/queries.js";
+import { DELETE_CONTACT } from "../../utils/mutations.js";
+import { useMutation } from "@apollo/client";
 import { useQuery } from "@apollo/client";
 import { useState } from "react";
 import AUTH from "../../utils/auth";
@@ -20,11 +22,17 @@ const Contacts = () => {
     },
   });
   const theme = useTheme();
-  console.log(data);
   const colors = tokens(theme.palette.mode);
+  const [deleteContact] = useMutation(DELETE_CONTACT, {
+    variables: {
+      _id: AUTH.getProfile().data._id,
+      // contactsId: id,
+    },
+  });
   const contacts = data?.contacts.contacts || [];
   console.log(contacts);
   const columns = [
+    { field: "id", headerName: "ID" },
     {
       field: "firstName",
       headerName: "First Name",
@@ -80,7 +88,7 @@ const Contacts = () => {
       headerName: "Delete",
       flex: 1,
       renderCell: (params) => (
-        <Button color="secondary">
+        <Button color="secondary" onClick={e => console.log(e.currentTarget.parentElement.parentElement.getAttribute('data-id'))}>
           <HighlightOffOutlinedIcon />
         </Button>
       ),

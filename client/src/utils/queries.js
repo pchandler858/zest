@@ -14,7 +14,7 @@ export const GET_CONTACTS = gql`
   query GetContacts($_id: ID!) {
     contacts(_id: $_id) {
       contacts {
-        id
+      id
       address1
       address2
       companyName
@@ -36,6 +36,17 @@ export const GET_APPLICATIONS = gql`
         contactName
         companyName
         position
+    }
+    }
+  }
+`;
+
+export const GET_PROFILEPICTURE = gql`    
+  query GetProfilePicture($_id: ID!) {
+    profilePicture(_id: $_id) {
+      profilePicture {
+        id
+        pictureUrl
     }
     }
   }
