@@ -6,7 +6,8 @@ import Header from "../../components/Header";
 import { ADD_CONTACT } from "../../utils/mutations";
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
-import  AUTH  from "../../utils/auth";
+import AUTH from "../../utils/auth";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = {
   firstName: "",
@@ -20,14 +21,14 @@ const initialValues = {
 
 const phoneRegExp = /^(\+0?1\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
 
-
-const ContactForm =  () => {
+const ContactForm = () => {
+  const navigate = useNavigate();
   const isNotMobile = useMediaQuery("(min-width: 600px)");
   // const [formState, setFormState] = useState(initialValues);
   const [addContact] = useMutation(ADD_CONTACT);
   const handleFormSubmit = async (values) => {
     console.log(values);
-    try { 
+    try {
       const { data } = await addContact({
         variables: {
           _id: AUTH.getProfile().data._id,
@@ -37,10 +38,11 @@ const ContactForm =  () => {
           email: values.email,
           phone: values.phone,
           address1: values.address1,
-          address2: values.address2   
+          address2: values.address2,
         },
-      })
+      });
       console.log(data);
+      navigate("/contacts");
     } catch (e) {
       console.error(e);
     }
@@ -49,10 +51,7 @@ const ContactForm =  () => {
     <Box m="20px">
       <Header title="Create Contact" subtitle="Create new lead!" />
 
-      <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
-      >
+      <Formik onSubmit={handleFormSubmit} initialValues={initialValues}>
         {({
           values,
           errors,
@@ -163,7 +162,12 @@ const ContactForm =  () => {
               />
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
-              <Button type="submit" color="secondary" variant="contained" value="Submit">
+              <Button
+                type="submit"
+                color="secondary"
+                variant="contained"
+                value="Submit"
+              >
                 Create New Contact
               </Button>
             </Box>
