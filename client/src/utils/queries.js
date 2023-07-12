@@ -14,7 +14,7 @@ export const GET_CONTACTS = gql`
   query GetContacts($_id: ID!) {
     contacts(_id: $_id) {
       contacts {
-        id
+      id
       address1
       address2
       companyName
