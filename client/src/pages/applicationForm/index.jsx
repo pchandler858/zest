@@ -6,7 +6,8 @@ import Header from "../../components/Header";
 import { ADD_APPLICATION } from "../../utils/mutations";
 import { useMutation } from "@apollo/client";
 import { useState } from "react";
-import  AUTH  from "../../utils/auth";
+import AUTH from "../../utils/auth";
+import { useNavigate } from "react-router-dom";
 
 const initialValues = {
   contactName: "",
@@ -17,36 +18,37 @@ const initialValues = {
 
 const phoneRegExp = /^(\+0?1\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
 
-
-const ApplicationForm =  () => {
+const ApplicationForm = () => {
+  const navigate = useNavigate();
   const isNotMobile = useMediaQuery("(min-width: 600px)");
   // const [formState, setFormState] = useState(initialValues);
   const [addApplication] = useMutation(ADD_APPLICATION);
   const handleFormSubmit = async (values) => {
     console.log(values);
-    try { 
+    try {
       const { data } = await addApplication({
         variables: {
           _id: AUTH.getProfile().data._id,
           contactName: values.contactName,
           companyName: values.companyName,
           appliedOn: values.appliedOn,
-          position: values.position,  
+          position: values.position,
         },
-      })
+      });
       console.log(data);
+      navigate("/applications");
     } catch (e) {
       console.error(e);
     }
   };
   return (
     <Box m="20px">
-      <Header title="Add Application" subtitle="Keep track of your job search!" />
+      <Header
+        title="Add Application"
+        subtitle="Keep track of your job search!"
+      />
 
-      <Formik
-        onSubmit={handleFormSubmit}
-        initialValues={initialValues}
-      >
+      <Formik onSubmit={handleFormSubmit} initialValues={initialValues}>
         {({
           values,
           errors,
@@ -118,7 +120,12 @@ const ApplicationForm =  () => {
               />
             </Box>
             <Box display="flex" justifyContent="end" mt="20px">
-              <Button type="submit" color="secondary" variant="contained" value="Submit">
+              <Button
+                type="submit"
+                color="secondary"
+                variant="contained"
+                value="Submit"
+              >
                 Create New Application
               </Button>
             </Box>
