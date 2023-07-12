@@ -24,9 +24,9 @@ const Applications = () => {
   const columns = [
     // { field: "id", headerName: "ID" },
     {
-      field: "dateApplied",
+      field: "appliedOn",
       headerName: "Date Applied",
-      type: "date",
+      // type: "date",
       flex: 1,
       headerAlign: "left",
       align: "left",
@@ -44,7 +44,7 @@ const Applications = () => {
       cellClassName: "companyName-column--cell",
     },
     {
-      field: "name",
+      field: "contactName",
       headerName: "Contact Person",
       flex: 1,
       cellClassName: "contactPerson-column--cell",
@@ -98,13 +98,15 @@ const Applications = () => {
             borderTip: "none",
             backgroundColor: colors.blueAccent[700],
           },
-        }}>
+        }}
+      >
         <Box display="flex" justifyContent="start" mb="20px">
           <Button
             component={Link}
             to="/applicationForm"
             variant="contained"
-            color="secondary">
+            color="secondary"
+          >
             Add New Application
           </Button>
         </Box>
