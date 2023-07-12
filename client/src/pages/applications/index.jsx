@@ -7,6 +7,8 @@ import { Link } from "react-router-dom";
 import { GET_APPLICATIONS } from "../../utils/queries.js";
 import { useQuery } from "@apollo/client";
 import AUTH from "../../utils/auth.js";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
+import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 
 const Applications = () => {
   const theme = useTheme();
@@ -24,9 +26,9 @@ const Applications = () => {
   const columns = [
     // { field: "id", headerName: "ID" },
     {
-      field: "dateApplied",
+      field: "appliedOn",
       headerName: "Date Applied",
-      type: "date",
+      // type: "date",
       flex: 1,
       headerAlign: "left",
       align: "left",
@@ -44,28 +46,33 @@ const Applications = () => {
       cellClassName: "companyName-column--cell",
     },
     {
-      field: "name",
+      field: "contactName",
       headerName: "Contact Person",
       flex: 1,
       cellClassName: "contactPerson-column--cell",
     },
-    // {
-    //   field: "followUps",
-    //   headerName: "Follow Ups",
-    //   type: "number",
-    //   headerAlign: "left",
-    //   align: "left",
-    // },
-    // {
-    //   field: "phone",
-    //   headerName: "Phone Number",
-    //   flex: 1,
-    // },
-    // {
-    //   field: "email",
-    //   headerName: "Email",
-    //   flex: 1,
-    // },
+    {
+      field: "edit",
+      headerName: "Edit",
+      flex: 0.3,
+      renderCell: (params) => (
+        <Link to={`/#`}>
+          <Button color="secondary">
+            <ModeEditOutlineOutlinedIcon />
+          </Button>
+        </Link>
+      ),
+    },
+    {
+      field: "delete",
+      headerName: "Delete",
+      flex: 0.3,
+      renderCell: (params) => (
+        <Button color="secondary">
+          <HighlightOffOutlinedIcon />
+        </Button>
+      ),
+    },
   ];
 
   return (
@@ -98,13 +105,15 @@ const Applications = () => {
             borderTip: "none",
             backgroundColor: colors.blueAccent[700],
           },
-        }}>
+        }}
+      >
         <Box display="flex" justifyContent="start" mb="20px">
           <Button
             component={Link}
             to="/applicationForm"
             variant="contained"
-            color="secondary">
+            color="secondary"
+          >
             Add New Application
           </Button>
         </Box>
