@@ -10,6 +10,7 @@ const typeDefs = gql`
     lastName: String
     email: String
     password: String
+    profilePicture: [ProfilePicture]
     contacts: [Contacts]
     applications: [Applications]
     # calendar: [Calendar]!
@@ -31,6 +32,10 @@ const typeDefs = gql`
     appliedOn: String
     position: String
     contactName: String
+  }
+  type ProfilePicture {
+    id: ID
+    pictureUrl: String
   }
   type Calendar {
     _id: ID
@@ -61,6 +66,7 @@ const typeDefs = gql`
     contact(contactsId: ID!): Contacts
     applications(_id: ID!): User!
     application(applicationsId: ID!): Applications
+    profilePicture(_id: ID!): User!
     calendars: [Calendar]!
     projects: [Projects]!
     project(projectsId: ID!): Projects
@@ -99,6 +105,7 @@ const typeDefs = gql`
       position: String
       contactName: String
     ): Applications
+    addProfilePicture(_id: ID!, pictureUrl: String): ProfilePicture
     updateProject(
       name: String!
       description: String!

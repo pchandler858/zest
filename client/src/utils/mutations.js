@@ -53,8 +53,26 @@ export const DELETE_EVENT = gql`
 `;
 
 export const ADD_CONTACT = gql`
-  mutation addContact($_id:ID!, $firstName: String, $lastName: String, $email: String!, $phone: String!, $companyName: String!, $address1: String, $address2: String,) {
-    addContact(_id:$_id, firstName: $firstName, lastName: $lastName, email: $email, phone: $phone, companyName: $companyName, address1: $address1, address2: $address2,) {
+  mutation addContact(
+    $_id: ID!
+    $firstName: String
+    $lastName: String
+    $email: String!
+    $phone: String!
+    $companyName: String!
+    $address1: String
+    $address2: String
+  ) {
+    addContact(
+      _id: $_id
+      firstName: $firstName
+      lastName: $lastName
+      email: $email
+      phone: $phone
+      companyName: $companyName
+      address1: $address1
+      address2: $address2
+    ) {
       id
       firstName
       lastName
@@ -63,8 +81,8 @@ export const ADD_CONTACT = gql`
       companyName
       address1
       address2
-    }   
-  } 
+    }
+  }
 `;
 
 export const DELETE_CONTACT = gql`
@@ -76,13 +94,39 @@ export const DELETE_CONTACT = gql`
 `;
 
 export const ADD_APPLICATION = gql`
-  mutation addApplication($_id:ID!, $appliedOn: String, $companyName: String, $position: String!, $contactName: String!) {
-    addApplication(_id:$_id, appliedOn: $appliedOn, companyName: $companyName, position: $position, contactName: $contactName) {
+  mutation addApplication(
+    $_id: ID!
+    $appliedOn: String
+    $companyName: String
+    $position: String!
+    $contactName: String!
+  ) {
+    addApplication(
+      _id: $_id
+      appliedOn: $appliedOn
+      companyName: $companyName
+      position: $position
+      contactName: $contactName
+    ) {
       id
       appliedOn
       contactName
       companyName
       position
+
+    }
+  }
+`;
+
+export const ADD_PROFILEPICTURE = gql`
+  mutation AddProfilePicture($_id: ID!, $pictureUrl: String) {
+    addProfilePicture(_id: $_id, pictureUrl: $pictureUrl) {
+      id
+      pictureUrl
+    }
+  }
+`;
+
     }   
   } 
 `;

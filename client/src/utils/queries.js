@@ -40,3 +40,14 @@ export const GET_APPLICATIONS = gql`
     }
   }
 `;
+
+export const GET_PROFILEPICTURE = gql`    
+  query GetProfilePicture($_id: ID!) {
+    profilePicture(_id: $_id) {
+      profilePicture {
+        id
+        pictureUrl
+    }
+    }
+  }
+`;

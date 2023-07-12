@@ -1,5 +1,5 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User, Calendar, Contacts, Applications } = require("../models");
+const { User, Calendar, Contacts, Applications, ProfilePicture } = require("../models");
 const { signToken } = require("../auth/auth");
 const { ObjectId } = require("mongodb");
 
@@ -22,6 +22,9 @@ const resolvers = {
     },
     applications: async (parent, { _id }) => {
       return User.findOne({ _id }).populate("applications");
+    },
+    profilePicture: async (parent, { _id }) => {
+      return User.findOne({ _id }).populate("profilePicture");
     },
   },
   // users: async () => {
@@ -150,6 +153,24 @@ const resolvers = {
       );
       return updateApplications;
     },
+
+    addProfilePicture: async (parent, { pictureUrl }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError("You need to be logged in!");
+      }
+      const updateProfilePicture = await User.findOneAndUpdate(
+        { _id: context.user._id },
+        {
+          $push: {
+            profilePicture: {
+              pictureUrl,
+            },
+          },
+        }
+      );
+      return updateProfilePicture;
+    },
+
 
 //     deleteApplication: async (parent, { id }, context) => {
 //       if (!context.user) {
