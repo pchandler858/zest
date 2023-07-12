@@ -147,6 +147,7 @@ const typeDefs = gql`
     ): Applications
     addCalendarEvent(todo: String!, date: String!): Calendar
     deleteEvent(id: ID!): DeletedEvent
+    editCalendarEvent(id: ID!, todo: String!, date: String!): Calendar
   }
 `;
 

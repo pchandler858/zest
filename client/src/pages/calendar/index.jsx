@@ -6,7 +6,7 @@ import timeGridPlugin from "@fullcalendar/timegrid";
 import listPlugin from "@fullcalendar/list";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
-import {  ADD_EVENT, DELETE_EVENT } from "../../utils/mutations";
+import { ADD_EVENT, DELETE_EVENT, EDIT_EVENT } from "../../utils/mutations";
 import { GET_EVENTS } from "../../utils/queries";
 import { useQuery, useMutation } from "@apollo/client";
 import {
@@ -38,13 +38,19 @@ const Calendar = () => {
   const [deleteEvent] = useMutation(DELETE_EVENT, {
     refetchQueries: [{ query: GET_EVENTS }],
   });
+  const [editEvent] = useMutation(EDIT_EVENT, {
+    refetchQueries: [{ query: GET_EVENTS }],
+  });
   const [currentEvents, setCurrentEvents] = useState([]);
 
   const [openAdd, setOpenAdd] = useState(false);
   const [openDelete, setOpenDelete] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
   const [todo, setTodo] = useState("");
+  const [editTodo, setEditTodo] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedEvent, setSelectedEvent] = useState(null);
+  const [selectedEventId, setSelectedEventId] = useState(null);
 
   const handleOpenAdd = () => {
     setOpenAdd(true);
@@ -52,6 +58,12 @@ const Calendar = () => {
 
   const handleOpenDelete = () => {
     setOpenDelete(true);
+  };
+
+  const handleOpenEdit = (id, todo) => {
+    setEditTodo(todo);
+    setSelectedEventId(id);
+    setOpenEdit(true);
   };
 
   const handleCloseAdd = async (add) => {
@@ -76,6 +88,25 @@ const Calendar = () => {
     }
   };
 
+  const handleCloseEdit = async (edit) => {
+    setOpenEdit(false);
+    if (edit && editTodo) {
+      try {
+        setSelectedDate(selectedEvent.start); // Set the selectedDate value here
+        await editEvent({
+          variables: {
+            id: selectedEventId,
+            todo: editTodo,
+            date: selectedEvent.start, // Pass the selectedDate value to the mutation
+          },
+        });
+        setEditTodo("");
+      } catch (error) {
+        console.error("Error in handleCloseEdit:", error);
+      }
+    }
+  };
+
   useEffect(() => {
     if (data && data.calendars) {
       setCurrentEvents(data.calendars);
@@ -86,7 +117,8 @@ const Calendar = () => {
   if (error) return `Error: ${error.message}`;
 
   const handleDateClick = (selected) => {
-    setSelectedDate(selected.startStr);
+    const selectedDate = selected.startStr;
+    setSelectedDate(selectedDate);
     handleOpenAdd();
   };
 
@@ -110,7 +142,7 @@ const Calendar = () => {
           p="15px"
           borderRadius="4px"
         >
-        {/* Start Events Side Calendar */}
+          {/* Start Events Side Calendar */}
           <Typography variant="h6">Events</Typography>
           <List>
             {data &&
@@ -123,6 +155,7 @@ const Calendar = () => {
                     margin: "10px 0",
                     borderRadius: "2px",
                   }}
+                  onClick={() => handleOpenEdit(event._id, event.todo)}
                 >
                   <ListItemText
                     primary={event.todo}
@@ -202,8 +235,8 @@ const Calendar = () => {
         <DialogTitle>Delete Event</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Are you sure you want to delete the event
-            {selectedEvent && ` '${selectedEvent.title}'`}?
+            Are you sure you want to delete this event{" "}
+            {selectedEvent && ` '${selectedEvent.title}'`}??
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -218,6 +251,38 @@ const Calendar = () => {
             sx={{ color: colors.greenAccent[600] }}
           >
             Yes
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Dialog open={openEdit} onClose={handleCloseEdit}>
+        <DialogTitle>Edit Event</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please enter the new title of your event
+          </DialogContentText>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            label="Event Title"
+            type="text"
+            fullWidth
+            value={editTodo}
+            onChange={(e) => setEditTodo(e.target.value)}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={() => handleCloseEdit(false)}
+            sx={{ color: colors.greenAccent[600] }}
+          >
+            Cancel
+          </Button>
+          <Button
+            onClick={() => handleCloseEdit(true)}
+            sx={{ color: colors.greenAccent[600] }}
+          >
+            Edit
           </Button>
         </DialogActions>
       </Dialog>

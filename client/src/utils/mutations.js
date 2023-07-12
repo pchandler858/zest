@@ -52,6 +52,16 @@ export const DELETE_EVENT = gql`
   }
 `;
 
+export const EDIT_EVENT = gql`
+  mutation EditCalendarEvent($id: ID!, $todo: String!, $date: String!) {
+    editCalendarEvent(id: $id, todo: $todo, date: $date) {
+      _id
+      todo
+      date
+    }
+  }
+`;
+
 export const ADD_CONTACT = gql`
   mutation addContact($_id:ID!, $firstName: String, $lastName: String, $email: String!, $phone: String!, $companyName: String!, $address1: String, $address2: String,) {
     addContact(_id:$_id, firstName: $firstName, lastName: $lastName, email: $email, phone: $phone, companyName: $companyName, address1: $address1, address2: $address2,) {
@@ -63,8 +73,8 @@ export const ADD_CONTACT = gql`
       companyName
       address1
       address2
-    }   
-  } 
+    }
+  }
 `;
 
 export const ADD_APPLICATION = gql`
@@ -75,6 +85,6 @@ export const ADD_APPLICATION = gql`
       contactName
       companyName
       position
-    }   
-  } 
+    }
+  }
 `;

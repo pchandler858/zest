@@ -83,6 +83,22 @@ const resolvers = {
       });
       return { id: deleted._id };
     },
+    editCalendarEvent: async (parent, { id, todo, date }, context) => {
+      console.log("Edit Calendar Event Mutation called"); // Log a message to indicate the resolver is being executed
+      console.log("Input Parameters:", id, todo, date);
+      if (!context.user) {
+        throw new AuthenticationError("You need to be logged in!");
+      }
+      console.log("User:", context.user._id);
+      const event = await Calendar.findOneAndUpdate(
+        { _id: id, user: context.user._id },
+        { todo, date: new Date(date) },
+        { new: true }
+      );
+      console.log("Event:", event);
+      return event;
+    },
+
     addContact: async (
       parent,
       { firstName, lastName, companyName, phone, email, address1, address2 },
