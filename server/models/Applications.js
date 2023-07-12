@@ -7,6 +7,7 @@ const applicationSchema = new Schema({
     required: true,
     trim: true,
     unique: true,
+    sparse: true,
   },
   // We can use Date.parse here to save the user input as a date if needed, regex should work as well.
   appliedOn: {

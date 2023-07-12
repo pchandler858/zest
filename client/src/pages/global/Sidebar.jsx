@@ -13,7 +13,11 @@ import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+
 import FormDialog from "../../components/FormDialog";
+import { GET_PROFILEPICTURE } from "../../utils/queries";
+import { useQuery } from "@apollo/client";
+import AUTH from "../../utils/auth";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -23,8 +27,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       active={selected === title}
       style={{ color: colors.grey[100] }}
       onClick={() => setSelected(title)}
-      icon={icon}
-    >
+      icon={icon}>
       <Typography>{title}</Typography>
       <Link to={to} />
     </MenuItem>
@@ -46,6 +49,16 @@ const Sidebar = () => {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const { loading, data } = useQuery(GET_PROFILEPICTURE, {
+    variables: {
+      _id: AUTH.getProfile().data._id,
+    },
+  });
+  console.log(data);
+  const profilePicture =
+    data?.profilePicture.profilePicture[1].pictureUrl || [];
+  console.log(profilePicture);
 
   const handleToggleCollapse = () => {
     if (window.innerWidth >= 800) {
@@ -87,8 +100,7 @@ const Sidebar = () => {
         "& .pro-menu-item.active": {
           color: "#6870fa !important",
         },
-      }}
-    >
+      }}>
       <ProSidebar collapsed={isCollapsed}>
         <Menu iconShape="square">
           {/* logo and menu button */}
@@ -100,15 +112,13 @@ const Sidebar = () => {
                 margin: "10px 0 20px 0",
                 color: colors.grey[100],
                 display: window.innerWidth < 800 ? "none" : "block",
-              }}
-            >
+              }}>
               {!isCollapsed && (
                 <Box
                   display="flex"
                   justifyContent="space-between"
                   alignItems="center"
-                  ml="15px"
-                >
+                  ml="15px">
                   <Typography variant="h3" color={colors.grey[100]}>
                     Admin
                   </Typography>
@@ -132,7 +142,9 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={"https://i.pravatar.cc/300"}
+                  // field="profileUrl"
+                  src={profilePicture}
+                  // src={"https://i.pravatar.cc/300"}
                   // src={`../../assets/user.png`}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
@@ -145,8 +157,7 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{
                     m: "10px 0 0 0",
-                  }}
-                >
+                  }}>
                   Random User
                 </Typography>
                 <Typography variant="h5" color={colors.greenAccent[500]}>
@@ -194,8 +205,7 @@ const Sidebar = () => {
               color={colors.grey[300]}
               sx={{
                 m: "15px 0 5px 20px",
-              }}
-            >
+              }}>
               Charts
             </Typography>
             <Item

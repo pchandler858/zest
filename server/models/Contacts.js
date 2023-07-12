@@ -15,6 +15,7 @@ const contactsSchema = new Schema({
         type: String,
         required: true,
         trim: true,
+        sparse: true,
     },
     phone: {
         type: String,
