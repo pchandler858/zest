@@ -52,6 +52,16 @@ export const DELETE_EVENT = gql`
   }
 `;
 
+export const EDIT_EVENT = gql`
+  mutation EditCalendarEvent($id: ID!, $todo: String!, $date: String!) {
+    editCalendarEvent(id: $id, todo: $todo, date: $date) {
+      _id
+      todo
+      date
+    }
+  }
+`;
+
 export const ADD_CONTACT = gql`
   mutation addContact(
     $_id: ID!
@@ -114,6 +124,7 @@ export const ADD_APPLICATION = gql`
       companyName
       position
 
+
     }
   }
 `;
@@ -138,3 +149,4 @@ export const ADD_PROFILEPICTURE = gql`
 //     }
 //   }
 // `;
+
