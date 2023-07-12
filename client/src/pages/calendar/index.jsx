@@ -110,6 +110,7 @@ const Calendar = () => {
           p="15px"
           borderRadius="4px"
         >
+        {/* Start Events Side Calendar */}
           <Typography variant="h6">Events</Typography>
           <List>
             {data &&

@@ -1,6 +1,5 @@
 const { Schema } = require("mongoose");
 
-
 const applicationSchema = new Schema({
   companyName: {
     type: String,

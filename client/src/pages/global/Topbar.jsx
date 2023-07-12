@@ -7,7 +7,7 @@ import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
-import SearchIcon from "@mui/icons-material/Search";
+// import SearchIcon from "@mui/icons-material/Search";
 import AuthService from "../../utils/auth";
 import {
   Dialog,
@@ -34,9 +34,9 @@ const Topbar = () => {
   };
 
   return (
-    <Box display="flex" justifyContent="space-between" p={2}>
+    <Box display="flex" justifyContent="right" p={2}>
       {/* search bar */}
-      <Box
+      {/* <Box
         display="flex"
         backgroundColor={colors.primary[400]}
         borderRadius="3px">
@@ -44,7 +44,7 @@ const Topbar = () => {
         <IconButton type="button" sx={{ p: 1 }}>
           <SearchIcon />
         </IconButton>
-      </Box>
+      </Box> */}
 
       {/* icons */}
       <Box display="flex">
@@ -65,7 +65,8 @@ const Topbar = () => {
               open={openDialog}
               onClose={() => setOpenDialog(false)}
               aria-labelledby="alert-dialog-title"
-              aria-describedby="alert-dialog-description">
+              aria-describedby="alert-dialog-description"
+            >
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
                   Are you sure you want to log out?
@@ -74,14 +75,16 @@ const Topbar = () => {
               <DialogActions>
                 <Button
                   onClick={() => setOpenDialog(false)}
-                  sx={{ color: colors.greenAccent[600] }}>
+                  sx={{ color: colors.greenAccent[600] }}
+                >
                   Cancel
                 </Button>
                 <Button
                   onClick={handleLogout}
                   color="primary"
                   autoFocus
-                  sx={{ color: colors.greenAccent[600] }}>
+                  sx={{ color: colors.greenAccent[600] }}
+                >
                   Logout
                 </Button>
               </DialogActions>

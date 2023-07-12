@@ -112,6 +112,24 @@ const resolvers = {
       );
       return updateContacts;
     },
+
+    deleteContact: async (parent, { id, contactsId }, context) => {
+      if (!context.user) {
+        throw new AuthenticationError("You need to be logged in!");
+      }
+      const deleted = await User.updateOne({
+        _id: id,
+        // user: context.user._id,
+      },
+      { $pullAll: 
+        {
+          contacts: [{_id: contactsId}],
+        }
+      },
+    );
+      return { id: deleted._id };
+    },
+
     addApplication: async (
       parent,
       { contactName, position, companyName, appliedOn },
@@ -135,6 +153,7 @@ const resolvers = {
       );
       return updateApplications;
     },
+
     addProfilePicture: async (parent, { pictureUrl }, context) => {
       if (!context.user) {
         throw new AuthenticationError("You need to be logged in!");
@@ -151,6 +170,19 @@ const resolvers = {
       );
       return updateProfilePicture;
     },
+
+
+//     deleteApplication: async (parent, { id }, context) => {
+//       if (!context.user) {
+//         throw new AuthenticationError("You need to be logged in!");
+//       }
+//       const deleted = await applicationSchema.findOneAndRemove({
+//         _id: new ObjectId(id),
+//         user: context.user._id,
+//       });
+//       return { id: deleted._id };
+//     },
+
   },
 };
 

@@ -85,6 +85,14 @@ export const ADD_CONTACT = gql`
   }
 `;
 
+export const DELETE_CONTACT = gql`
+  mutation deleteContact($_id: ID!, $contactsId: ID!) {
+    deleteContact(_id: $_id, contactsId: $contactsId) {
+      id
+    }
+  }
+`;
+
 export const ADD_APPLICATION = gql`
   mutation addApplication(
     $_id: ID!
@@ -105,6 +113,7 @@ export const ADD_APPLICATION = gql`
       contactName
       companyName
       position
+
     }
   }
 `;
@@ -117,3 +126,15 @@ export const ADD_PROFILEPICTURE = gql`
     }
   }
 `;
+
+    }   
+  } 
+`;
+
+// export const DELETE_APPLICATION = gql`
+//   mutation DeleteApplication($_id: ID!) {
+//     deleteApplication(_id: $_id) {
+//       id
+//     }
+//   }
+// `;

@@ -137,21 +137,8 @@ const typeDefs = gql`
       status: String!
       url: String!
     ): Projects
-    removeContact(
-      firstName: String!
-      lastName: String!
-      companyName: String!
-      phone: String!
-      email: String!
-      address1: String!
-      address2: String!
-    ): Contacts
-    removeApplication(
-      businessName: String!
-      appliedOn: String!
-      phoneNumber: String!
-      email: String!
-    ): Applications
+    deleteContact(_id: ID!, contactsId: ID!): Contacts
+    deleteApplication(_id: ID!): Applications
     addCalendarEvent(todo: String!, date: String!): Calendar
     deleteEvent(id: ID!): DeletedEvent
   }

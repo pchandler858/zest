@@ -118,10 +118,8 @@ const Sidebar = () => {
                   display="flex"
                   justifyContent="space-between"
                   alignItems="center"
-                  ml="15px">
-                  <Typography variant="h3" color={colors.grey[100]}>
-                    Admin
-                  </Typography>
+                  ml="15px"
+                >
                   <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                     <MenuOutlinedIcon />
                   </IconButton>
@@ -159,9 +157,6 @@ const Sidebar = () => {
                     m: "10px 0 0 0",
                   }}>
                   Random User
-                </Typography>
-                <Typography variant="h5" color={colors.greenAccent[500]}>
-                  Web Developer
                 </Typography>
               </Box>
             </Box>
