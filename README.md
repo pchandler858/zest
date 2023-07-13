@@ -8,7 +8,7 @@ Zest is a React job tracker. It allows users to create an account and save jobs 
 - Mongoose
 - Material UI
 
-[This is an external link to the 'Zest' repository](https://github.com/pchandler858/Project-3.git)
+[This is an external link to the 'Zest' repository](https://github.com/pchandler858/zest)
 
 ## Description
 
@@ -24,9 +24,9 @@ To use Zest, create an account and login. Once logged in, you can add jobs, cont
 
 Future updates will include a more robust editing and job tracking system.
 
-![Zest - A React Portfolio](./client/public/images/zest.png)
+![Zest - A React Portfolio](./client/public/zest.png)
 
-[This is an external link to 'Zest' hosted on Heroku](https://zest-job-tracker.herokuapp.com/)
+[This is an external link to 'Zest' hosted on Heroku](#)
 
 ## Credits
 
