@@ -9,6 +9,8 @@ import { useQuery } from "@apollo/client";
 import AUTH from "../../utils/auth.js";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
+import { DELETE_APPLICATION } from "../../utils/mutations.js";
+import { useMutation } from "@apollo/client";
 
 const Applications = () => {
   const theme = useTheme();
@@ -20,6 +22,18 @@ const Applications = () => {
     },
   });
   console.log(data);
+  const [deleteApplication] = useMutation(DELETE_APPLICATION);
+  const handleDeleteApplication = (e) => {
+    const applicationsId = e.currentTarget.parentElement.parentElement.getAttribute("data-id");
+    console.log(e.currentTarget.parentElement.parentElement.getAttribute('data-id'));
+    deleteApplication({
+      variables: {
+        _id: AUTH.getProfile().data._id,
+        applicationsId: applicationsId,
+      },
+    })
+    window.location.reload();
+  }
   const applications = data?.applications.applications || [];
   console.log(applications);
 
@@ -68,7 +82,7 @@ const Applications = () => {
       headerName: "Delete",
       flex: 0.3,
       renderCell: (params) => (
-        <Button color="secondary">
+        <Button color="secondary" onClick={handleDeleteApplication}>
           <HighlightOffOutlinedIcon />
         </Button>
       ),

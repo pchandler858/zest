@@ -38,7 +38,7 @@ const Contacts = () => {
   const contacts = data?.contacts.contacts || [];
   console.log(contacts);
   const columns = [
-    { field: "id", headerName: "ID" },
+    // { field: "id", headerName: "ID" },
     {
       field: "firstName",
       headerName: "First Name",

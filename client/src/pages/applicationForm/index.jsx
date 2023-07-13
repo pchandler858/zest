@@ -36,7 +36,8 @@ const ApplicationForm = () => {
         },
       });
       console.log(data);
-      navigate("/applications");
+      window.location.href="/applications";
+      // navigate("/applications");
     } catch (e) {
       console.error(e);
     }
