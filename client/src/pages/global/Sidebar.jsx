@@ -57,7 +57,10 @@ const Sidebar = () => {
   });
   console.log(data);
   const profilePicture =
-    data?.profilePicture.profilePicture[0].pictureUrl || [];
+  // if (!data?.profilePicture.profilePicture[0].pictureUrl) {
+  //   profilePicture = '';
+  // }
+    data?.profilePicture.profilePicture.pictureUrl || [];
   console.log(profilePicture);
 
   const handleToggleCollapse = () => {

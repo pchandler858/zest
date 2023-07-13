@@ -23,12 +23,18 @@ const Contacts = () => {
   });
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [deleteContact] = useMutation(DELETE_CONTACT, {
-    variables: {
-      _id: AUTH.getProfile().data._id,
-      // contactsId: id,
-    },
-  });
+  const [deleteContact] = useMutation(DELETE_CONTACT);
+  const handleDeleteContact = (e) => {
+    const contactsId = e.currentTarget.parentElement.parentElement.getAttribute("data-id");
+    console.log(e.currentTarget.parentElement.parentElement.getAttribute('data-id'));
+    deleteContact({
+      variables: {
+        _id: AUTH.getProfile().data._id,
+        contactsId: contactsId,
+      },
+    })
+    window.location.reload();
+  }
   const contacts = data?.contacts.contacts || [];
   console.log(contacts);
   const columns = [
@@ -88,7 +94,7 @@ const Contacts = () => {
       headerName: "Delete",
       flex: 1,
       renderCell: (params) => (
-        <Button color="secondary" onClick={e => console.log(e.currentTarget.parentElement.parentElement.getAttribute('data-id'))}>
+        <Button color="secondary" onClick={handleDeleteContact}>
           <HighlightOffOutlinedIcon />
         </Button>
       ),
