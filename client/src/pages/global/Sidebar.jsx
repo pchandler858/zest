@@ -56,8 +56,15 @@ const Sidebar = () => {
     },
   });
   console.log(data);
-  const profilePicture =
-    data?.profilePicture.profilePicture[0].pictureUrl || [];
+
+  let profilePicture = "";
+  if (data?.profilePicture.profilePicture[0]) {
+    profilePicture = data?.profilePicture.profilePicture[0].pictureUrl;
+  } else {
+    profilePicture =
+      "https://static.vecteezy.com/system/resources/previews/008/302/512/original/eps10-grey-user-solid-icon-or-logo-in-simple-flat-trendy-modern-style-isolated-on-white-background-free-vector.jpg";
+  }
+
   console.log(profilePicture);
 
   const handleToggleCollapse = () => {
@@ -118,8 +125,7 @@ const Sidebar = () => {
                   display="flex"
                   justifyContent="space-between"
                   alignItems="center"
-                  ml="15px"
-                >
+                  ml="15px">
                   <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                     <MenuOutlinedIcon />
                   </IconButton>
@@ -140,10 +146,7 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  // field="profileUrl"
                   src={profilePicture}
-                  // src={"https://i.pravatar.cc/300"}
-                  // src={`../../assets/user.png`}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
