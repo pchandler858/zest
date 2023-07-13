@@ -157,6 +157,30 @@ const resolvers = {
       return { id: deleted._id };
     },
 
+    updateContact: async (parent, 
+      { firstName, lastName, companyName, phone, email, address1, address2, contactsId }, context ) => {
+        if (!context.user) {
+          throw new AuthenticationError("You need to be logged in!");
+        }
+        const updatedContact = await User.updateOne(
+          {
+            _id: _id,
+            // user: context.user._id,
+            'contacts._id': contactsId,
+          },
+          {
+            firstName,
+            lastName,
+            companyName,
+            phone,
+            email,
+            address1,
+            address2,
+          },
+        );
+        return updatedContact;
+    },
+
     addApplication: async (
       parent,
       { contactName, position, companyName, appliedOn },
@@ -179,6 +203,27 @@ const resolvers = {
         }
       );
       return updateApplications;
+    },
+
+    deleteApplication: async (parent, { _id, applicationsId }, context) => {
+      
+      console.log(_id);
+      console.log(applicationsId);
+      if (!context.user) {
+        throw new AuthenticationError("You need to be logged in!");
+      }
+      const deleted = await User.updateOne(
+        {
+          _id: _id,
+          // user: context.user._id,
+        },
+        {
+          $pull: {
+            applications: { _id: applicationsId },
+          },
+        }
+      );
+      return { id: deleted._id };
     },
 
     addProfilePicture: async (parent, { pictureUrl }, context) => {
