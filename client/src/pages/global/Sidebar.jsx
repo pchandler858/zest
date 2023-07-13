@@ -57,7 +57,7 @@ const Sidebar = () => {
   });
   console.log(data);
   const profilePicture =
-    data?.profilePicture.profilePicture[1].pictureUrl || [];
+    data?.profilePicture.profilePicture[0].pictureUrl || [];
   console.log(profilePicture);
 
   const handleToggleCollapse = () => {
