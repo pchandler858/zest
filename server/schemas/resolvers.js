@@ -52,6 +52,7 @@ const resolvers = {
     addUser: async (parent, { firstName, lastName, email, password }) => {
       const user = await User.create({ firstName, lastName, email, password });
       const token = signToken(user);
+      
       return { token, user };
     },
     login: async (parent, { email, password }) => {
@@ -135,18 +136,21 @@ const resolvers = {
       return updateContacts;
     },
 
-    deleteContact: async (parent, { id, contactsId }, context) => {
+    deleteContact: async (parent, { _id, contactsId }, context) => {
+      
+      console.log(_id);
+      console.log(contactsId);
       if (!context.user) {
         throw new AuthenticationError("You need to be logged in!");
       }
       const deleted = await User.updateOne(
         {
-          _id: id,
+          _id: _id,
           // user: context.user._id,
         },
         {
-          $pullAll: {
-            contacts: [{ _id: contactsId }],
+          $pull: {
+            contacts: { _id: contactsId },
           },
         }
       );

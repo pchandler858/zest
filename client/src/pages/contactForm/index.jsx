@@ -42,7 +42,8 @@ const ContactForm = () => {
         },
       });
       console.log(data);
-      navigate("/contacts");
+      window.location.href="/contacts";
+      // navigate("/contacts");
     } catch (e) {
       console.error(e);
     }
