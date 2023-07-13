@@ -38,7 +38,8 @@ function FormDialog({ open, onClose }) {
         },
       });
       console.log(data);
-      navigate("/");
+      window.location.reload();
+      // navigate("/");
     } catch (e) {
       console.error(e);
     }

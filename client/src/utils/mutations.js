@@ -123,8 +123,6 @@ export const ADD_APPLICATION = gql`
       contactName
       companyName
       position
-
-
     }
   }
 `;
@@ -138,10 +136,6 @@ export const ADD_PROFILEPICTURE = gql`
   }
 `;
 
-    }   
-  } 
-`;
-
 // export const DELETE_APPLICATION = gql`
 //   mutation DeleteApplication($_id: ID!) {
 //     deleteApplication(_id: $_id) {
@@ -149,4 +143,3 @@ export const ADD_PROFILEPICTURE = gql`
 //     }
 //   }
 // `;
-

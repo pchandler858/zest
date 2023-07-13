@@ -1,5 +1,11 @@
 const { AuthenticationError } = require("apollo-server-express");
-const { User, Calendar, Contacts, Applications, ProfilePicture } = require("../models");
+const {
+  User,
+  Calendar,
+  Contacts,
+  Applications,
+  ProfilePicture,
+} = require("../models");
 const { signToken } = require("../auth/auth");
 const { ObjectId } = require("mongodb");
 
@@ -133,16 +139,17 @@ const resolvers = {
       if (!context.user) {
         throw new AuthenticationError("You need to be logged in!");
       }
-      const deleted = await User.updateOne({
-        _id: id,
-        // user: context.user._id,
-      },
-      { $pullAll: 
+      const deleted = await User.updateOne(
         {
-          contacts: [{_id: contactsId}],
+          _id: id,
+          // user: context.user._id,
+        },
+        {
+          $pullAll: {
+            contacts: [{ _id: contactsId }],
+          },
         }
-      },
-    );
+      );
       return { id: deleted._id };
     },
 
@@ -177,28 +184,43 @@ const resolvers = {
       const updateProfilePicture = await User.findOneAndUpdate(
         { _id: context.user._id },
         {
-          $push: {
-            profilePicture: {
-              pictureUrl,
-            },
-          },
+          // update @ 0 index
+          "$set": {
+            "profilePicture.0.pictureUrl": pictureUrl,
+          }
         }
       );
       return updateProfilePicture;
     },
 
+    // addProfilePicture: async (parent, { pictureUrl }, context) => {
+    //   if (!context.user) {
+    //     throw new AuthenticationError("You need to be logged in!");
+    //   }
+    //   const updateProfilePicture = await User.findOneAndUpdate(
+    //     { _id: context.user._id },
+    //     {
+    //       // update @ 0 index
+    //       $push: {
+    //         profilePicture: {
+    //           pictureUrl,
+    //         },
+    //       },
+    //     }
+    //   );
+    //   return updateProfilePicture;
+    // },
 
-//     deleteApplication: async (parent, { id }, context) => {
-//       if (!context.user) {
-//         throw new AuthenticationError("You need to be logged in!");
-//       }
-//       const deleted = await applicationSchema.findOneAndRemove({
-//         _id: new ObjectId(id),
-//         user: context.user._id,
-//       });
-//       return { id: deleted._id };
-//     },
-
+    //     deleteApplication: async (parent, { id }, context) => {
+    //       if (!context.user) {
+    //         throw new AuthenticationError("You need to be logged in!");
+    //       }
+    //       const deleted = await applicationSchema.findOneAndRemove({
+    //         _id: new ObjectId(id),
+    //         user: context.user._id,
+    //       });
+    //       return { id: deleted._id };
+    //     },
   },
 };
 
