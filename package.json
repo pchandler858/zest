@@ -11,7 +11,8 @@
     "develop": "concurrently \"npm run server\" \"npm run client\"",
     "postinstall": "npm install server && npm install client",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "node ./server/seeders/seed.js"
+    "seed": "node ./server/seeders/seed.js",
+    "build": "cd client && npm run build"
   },
   "repository": {
     "type": "git",
