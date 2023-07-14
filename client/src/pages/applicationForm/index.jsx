@@ -5,7 +5,7 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 import { ADD_APPLICATION } from "../../utils/mutations";
 import { useMutation } from "@apollo/client";
-import { useState } from "react";
+// import { useState } from "react";
 import AUTH from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -36,7 +36,7 @@ const ApplicationForm = () => {
         },
       });
       console.log(data);
-      window.location.href="/applications";
+      window.location.href = "/applications";
       // navigate("/applications");
     } catch (e) {
       console.error(e);

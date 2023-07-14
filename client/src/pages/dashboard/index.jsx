@@ -65,7 +65,6 @@ const Dashboard = () => {
           justifyContent="center"
           maxWidth="500px"
           minWidth="150px"
-
         >
           <StatBox
             title="6"
@@ -89,7 +88,6 @@ const Dashboard = () => {
           justifyContent="center"
           maxWidth="500px"
           minWidth="150px"
-
         >
           <StatBox
             title="1"
@@ -106,8 +104,8 @@ const Dashboard = () => {
 
         {/* ROW 2 */}
         <Box
-          gridColumn="span 8" // Adjust gridColumn based on screen size
-          gridRow="span 2" // Adjust gridRow based on screen size
+          gridColumn="span 8"
+          gridRow="span 2"
           backgroundColor={colors.primary[400]}
           sx={{
             display: { xs: "none", sm: "none", md: "block", lg: "block" },

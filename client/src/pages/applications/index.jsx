@@ -24,16 +24,19 @@ const Applications = () => {
   console.log(data);
   const [deleteApplication] = useMutation(DELETE_APPLICATION);
   const handleDeleteApplication = (e) => {
-    const applicationsId = e.currentTarget.parentElement.parentElement.getAttribute("data-id");
-    console.log(e.currentTarget.parentElement.parentElement.getAttribute('data-id'));
+    const applicationsId =
+      e.currentTarget.parentElement.parentElement.getAttribute("data-id");
+    console.log(
+      e.currentTarget.parentElement.parentElement.getAttribute("data-id")
+    );
     deleteApplication({
       variables: {
         _id: AUTH.getProfile().data._id,
         applicationsId: applicationsId,
       },
-    })
+    });
     window.location.reload();
-  }
+  };
   const applications = data?.applications.applications || [];
   console.log(applications);
 
@@ -50,13 +53,13 @@ const Applications = () => {
     {
       field: "companyName",
       headerName: "Company Name",
-      flex: 1, // flex: 1 is the same as flex-grow: 1 and flex-shrink: 1, combined.
+      flex: 1,
       cellClassName: "companyName-column--cell",
     },
     {
       field: "position",
       headerName: "Position",
-      flex: 1, // flex: 1 is the same as flex-grow: 1 and flex-shrink: 1, combined.
+      flex: 1,
       cellClassName: "companyName-column--cell",
     },
     {

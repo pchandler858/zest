@@ -42,17 +42,6 @@ export default function SignIn() {
   const [formState, setFormState] = useState({ email: "", password: "" });
   const [login, { error, data }] = useMutation(LOGIN_USER);
 
-  // const handleSubmit = (event) => {
-  //   event.preventDefault();
-  //   const data = new FormData(event.currentTarget);
-  //   console.log({
-  //     email: data.get("email"),
-  //     password: data.get("password"),
-  //   });
-  // };
-
-  // The handleChange function updates the formState value for the name
-  // property to the value entered by the user in the form.
   const handleChange = (event) => {
     const { name, value } = event.target;
 
@@ -62,8 +51,6 @@ export default function SignIn() {
     });
   };
 
-  // The handleSubmit function is asynchronous because the login function is asynchronous.
-  // We use the async/await functionality to wait for the login function to complete before moving on.
   const handleSubmit = async (event) => {
     event.preventDefault();
     console.log(formState);
@@ -173,7 +160,6 @@ export default function SignIn() {
                     style={{ textDecoration: "none", color: colors.grey[100] }}
                   >
                     {" "}
-                    {/*<-- Link to signUp route */}
                     {"Don't have an account? Sign Up"}
                   </Link>
                 </Grid>

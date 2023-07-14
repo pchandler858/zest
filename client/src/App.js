@@ -85,13 +85,21 @@ function App() {
                   <Route
                     path="/contactForm"
                     element={
-                      isAuthenticated ? <ContactForm /> : <Navigate to="/signIn" />
+                      isAuthenticated ? (
+                        <ContactForm />
+                      ) : (
+                        <Navigate to="/signIn" />
+                      )
                     }
                   />
                   <Route
                     path="/applicationForm"
                     element={
-                      isAuthenticated ? <ApplicationForm /> : <Navigate to="/signIn" />
+                      isAuthenticated ? (
+                        <ApplicationForm />
+                      ) : (
+                        <Navigate to="/signIn" />
+                      )
                     }
                   />
                   <Route

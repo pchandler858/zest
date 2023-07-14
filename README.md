@@ -26,7 +26,7 @@ Future updates will include a more robust editing and job tracking system.
 
 ![Zest - A React Portfolio](./client/public/zest.png)
 
-[This is an external link to 'Zest' hosted on Heroku](#)
+[This is an external link to 'Zest' hosted on Heroku](https://zest-app-2266f75dda29.herokuapp.com/)
 
 ## Credits
 
