@@ -4,7 +4,7 @@
   "description": "",
   "main": "server/server.js",
   "scripts": {
-    "start:dev": "concurrently \"cd server && npm run server\" \"cd client && npm run dev\"",
+    "start:dev": "concurrently \"cd server && npm run start\" \"cd client && npm run start\"",
     "start": "node server/server.js",
     "heroku-postbuild": "npm install --prefix client && npm run build --prefix client && npm install --prefix server",
     "develop": "concurrently \"cd server && npm run start\" \"cd client && npm run start\"",
@@ -28,9 +28,7 @@
   },
   "homepage": "https://github.com/pchandler858/Project-3#readme",
   "dependencies": {
-    "client": "^0.0.1",
     "concurrently": "^8.2.0",
-    "jwt-decode": "^2.2.0",
-    "server": "^1.0.38"
-  },
-
+    "jwt-decode": "^2.2.0"
+  }
+}
