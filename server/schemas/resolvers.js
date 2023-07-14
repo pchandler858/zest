@@ -52,7 +52,7 @@ const resolvers = {
     addUser: async (parent, { firstName, lastName, email, password }) => {
       const user = await User.create({ firstName, lastName, email, password });
       const token = signToken(user);
-      
+
       return { token, user };
     },
     login: async (parent, { email, password }) => {
@@ -137,7 +137,6 @@ const resolvers = {
     },
 
     deleteContact: async (parent, { _id, contactsId }, context) => {
-      
       console.log(_id);
       console.log(contactsId);
       if (!context.user) {
@@ -157,28 +156,40 @@ const resolvers = {
       return { id: deleted._id };
     },
 
-    updateContact: async (parent, 
-      { firstName, lastName, companyName, phone, email, address1, address2, contactsId }, context ) => {
-        if (!context.user) {
-          throw new AuthenticationError("You need to be logged in!");
+    updateContact: async (
+      parent,
+      {
+        firstName,
+        lastName,
+        companyName,
+        phone,
+        email,
+        address1,
+        address2,
+        contactsId,
+      },
+      context
+    ) => {
+      if (!context.user) {
+        throw new AuthenticationError("You need to be logged in!");
+      }
+      const updatedContact = await User.updateOne(
+        {
+          _id: _id,
+          // user: context.user._id,
+          "contacts._id": contactsId,
+        },
+        {
+          firstName,
+          lastName,
+          companyName,
+          phone,
+          email,
+          address1,
+          address2,
         }
-        const updatedContact = await User.updateOne(
-          {
-            _id: _id,
-            // user: context.user._id,
-            'contacts._id': contactsId,
-          },
-          {
-            firstName,
-            lastName,
-            companyName,
-            phone,
-            email,
-            address1,
-            address2,
-          },
-        );
-        return updatedContact;
+      );
+      return updatedContact;
     },
 
     addApplication: async (
@@ -206,7 +217,6 @@ const resolvers = {
     },
 
     deleteApplication: async (parent, { _id, applicationsId }, context) => {
-      
       console.log(_id);
       console.log(applicationsId);
       if (!context.user) {
@@ -234,9 +244,9 @@ const resolvers = {
         { _id: context.user._id },
         {
           // update @ 0 index
-          "$set": {
+          $set: {
             "profilePicture.0.pictureUrl": pictureUrl,
-          }
+          },
         }
       );
       return updateProfilePicture;

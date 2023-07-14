@@ -89,7 +89,7 @@ const Calendar = () => {
   };
 
   const handleCloseEdit = async (edit) => {
-    console.log(selectedEvent)
+    console.log(selectedEvent);
     setOpenEdit(false);
     if (edit && editTodo) {
       try {
@@ -120,7 +120,7 @@ const Calendar = () => {
   const handleDateClick = (selected) => {
     const selectedDate = selected.startStr;
     setSelectedDate(selectedDate);
-    console.log(selectedDate)
+    console.log(selectedDate);
     handleOpenAdd();
   };
 
