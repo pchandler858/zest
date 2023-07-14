@@ -4,12 +4,10 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "dev": "react-scripts start",
-    "start": "serve -s build",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject",
-    "heroku-postbuild": "npm run build"
+    "start": "node --max_old_space_size=2560 node_modules/.bin/react-scripts start",
+    "build": "node --max_old_space_size=2560 node_modules/.bin/react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
   },
   "author": "",
   "license": "ISC",
