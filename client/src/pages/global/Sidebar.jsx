@@ -27,7 +27,8 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
       active={selected === title}
       style={{ color: colors.grey[100] }}
       onClick={() => setSelected(title)}
-      icon={icon}>
+      icon={icon}
+    >
       <Typography>{title}</Typography>
       <Link to={to} />
     </MenuItem>
@@ -107,7 +108,8 @@ const Sidebar = () => {
         "& .pro-menu-item.active": {
           color: "#6870fa !important",
         },
-      }}>
+      }}
+    >
       <ProSidebar collapsed={isCollapsed}>
         <Menu iconShape="square">
           {/* logo and menu button */}
@@ -119,13 +121,15 @@ const Sidebar = () => {
                 margin: "10px 0 20px 0",
                 color: colors.grey[100],
                 display: window.innerWidth < 800 ? "none" : "block",
-              }}>
+              }}
+            >
               {!isCollapsed && (
                 <Box
                   display="flex"
                   justifyContent="space-between"
                   alignItems="center"
-                  ml="15px">
+                  ml="15px"
+                >
                   <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
                     <MenuOutlinedIcon />
                   </IconButton>
@@ -158,8 +162,9 @@ const Sidebar = () => {
                   fontWeight="bold"
                   sx={{
                     m: "10px 0 0 0",
-                  }}>
-                  Random User
+                  }}
+                >
+                  Welcome!
                 </Typography>
               </Box>
             </Box>
@@ -203,7 +208,8 @@ const Sidebar = () => {
               color={colors.grey[300]}
               sx={{
                 m: "15px 0 5px 20px",
-              }}>
+              }}
+            >
               Charts
             </Typography>
             <Item
