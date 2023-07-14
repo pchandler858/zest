@@ -4,15 +4,17 @@
   "description": "",
   "main": "server/server.js",
   "scripts": {
-    "start:dev": "concurrently \"cd server && npm run server\" \"cd client && npm run dev\"",
-    "start": "npm run build && cd server && node server.js",
-    "server": "cd server nodemon server.js --ignore client",
-    "build": "cd client && npm run build",
-    "install": "cd server && npm i && cd ../client && npm i",
-    "client": "cd client && npm start",
-    "postinstall": "npm install server && npm install client",
+    "start:dev": "concurrently \"cd server && npm run start\" \"cd client && npm run start\"",
+    "start": "node server/server.js",
+    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client && npm install --prefix server",
+    "develop": "concurrently \"cd server && npm run start\" \"cd client && npm run start\"",
+    "install": "cd server && npm install && cd ../client && npm install",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "seed": "node ./server/seeders/seed.js"
+    "seed": "node ./server/seeders/seed.js",
+    "build": "cd client && npm run build"
+  },
+  "engines": {
+    "node": "16.20.0"
   },
   "repository": {
     "type": "git",
@@ -26,12 +28,7 @@
   },
   "homepage": "https://github.com/pchandler858/Project-3#readme",
   "dependencies": {
-    "client": "^0.0.1",
     "concurrently": "^8.2.0",
-    "jwt-decode": "^2.2.0",
-    "server": "^1.0.38"
-  },
-  "engines": {
-    "node": "16.20.0"
+    "jwt-decode": "^2.2.0"
   }
 }

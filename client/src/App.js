@@ -27,7 +27,7 @@ import Auth from "../src/utils/auth";
 
 // Construct our main GraphQL API endpoint
 const httpLink = createHttpLink({
-  uri: "http://localhost:3001/graphql",
+  uri: process.env.REACT_APP_SERVER_URL || "http://localhost:3001/graphql",
 });
 
 const authLink = setContext((_, { headers }) => {
