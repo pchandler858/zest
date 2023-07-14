@@ -5,12 +5,16 @@
   "main": "server/server.js",
   "scripts": {
     "start:dev": "concurrently \"cd server && npm run server\" \"cd client && npm run dev\"",
-    "start": "npm run build && cd server && node server.js",
+    "start": "node server/server.js",
+    "heroku-postbuild": "npm install --prefix client && npm run build --prefix client && npm install --prefix server",
     "develop": "concurrently \"cd server && npm run start\" \"cd client && npm run start\"",
     "install": "cd server && npm install && cd ../client && npm install",
     "test": "echo \"Error: no test specified\" && exit 1",
     "seed": "node ./server/seeders/seed.js",
     "build": "cd client && npm run build"
+  },
+  "engines": {
+    "node": "16.20.0"
   },
   "repository": {
     "type": "git",
@@ -29,7 +33,4 @@
     "jwt-decode": "^2.2.0",
     "server": "^1.0.38"
   },
-  "engines": {
-    "node": "16.20.0"
-  }
-}
+
