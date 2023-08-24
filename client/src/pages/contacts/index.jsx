@@ -1,16 +1,12 @@
-import { Box } from "@mui/material";
+import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme.js";
-import { seedDataContacts } from "../../data/seedData";
 import Header from "../../components/Header";
-import { useTheme } from "@mui/material";
 import { Link } from "react-router-dom";
-import Button from "@mui/material/Button";
 import { GET_CONTACTS } from "../../utils/queries.js";
 import { DELETE_CONTACT } from "../../utils/mutations.js";
-import { useMutation } from "@apollo/client";
-import { useQuery } from "@apollo/client";
-import { useState } from "react";
+import { useQuery, useMutation } from "@apollo/client";
+import { useState, useEffect } from "react";
 import AUTH from "../../utils/auth";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
@@ -21,27 +17,41 @@ const Contacts = () => {
       _id: AUTH.getProfile().data._id,
     },
   });
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
   const [deleteContact] = useMutation(DELETE_CONTACT);
-  const handleDeleteContact = (e) => {
+
+  // Create a state variable to hold the contacts data
+  const [contacts, setContacts] = useState([]);
+
+  useEffect(() => {
+    if (data?.contacts?.contacts) {
+      setContacts(data.contacts.contacts);
+    }
+  }, [data]);
+
+  const handleDeleteContact = async (e) => {
     const contactsId =
       e.currentTarget.parentElement.parentElement.getAttribute("data-id");
-    console.log(
-      e.currentTarget.parentElement.parentElement.getAttribute("data-id")
-    );
-    deleteContact({
-      variables: {
-        _id: AUTH.getProfile().data._id,
-        contactsId: contactsId,
-      },
-    });
-    window.location.reload();
+    try {
+      await deleteContact({
+        variables: {
+          _id: AUTH.getProfile().data._id,
+          contactsId: contactsId,
+        },
+      });
+
+      // Update the state variable after the deletion is successful
+      setContacts((prevContacts) =>
+        prevContacts.filter((contact) => contact.id !== contactsId)
+      );
+    } catch (error) {
+      console.error("Error deleting contact:", error);
+    }
   };
-  const contacts = data?.contacts.contacts || [];
-  console.log(contacts);
+
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+
   const columns = [
-    // { field: "id", headerName: "ID" },
     {
       field: "firstName",
       headerName: "First Name",
