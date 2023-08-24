@@ -1,16 +1,15 @@
 import { Button, Box, useTheme } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme.js";
-import { seedData } from "../../data/seedData.js";
 import Header from "../../components/Header.jsx";
 import { Link } from "react-router-dom";
 import { GET_APPLICATIONS } from "../../utils/queries.js";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import AUTH from "../../utils/auth.js";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { DELETE_APPLICATION } from "../../utils/mutations.js";
-import { useMutation } from "@apollo/client";
+import React, { useState, useEffect } from "react";
 
 const Applications = () => {
   const theme = useTheme();
@@ -21,31 +20,52 @@ const Applications = () => {
       _id: AUTH.getProfile().data._id,
     },
   });
-  console.log(data);
+
   const [deleteApplication] = useMutation(DELETE_APPLICATION);
-  const handleDeleteApplication = (e) => {
+
+  // Create a state variable to hold the applications data
+  const [applications, setApplications] = useState([]);
+
+  useEffect(() => {
+    if (data?.applications?.applications) {
+      setApplications(data.applications.applications);
+    }
+  }, [data]);
+
+  const handleDeleteApplication = async (e) => {
     const applicationsId =
       e.currentTarget.parentElement.parentElement.getAttribute("data-id");
-    console.log(
-      e.currentTarget.parentElement.parentElement.getAttribute("data-id")
-    );
-    deleteApplication({
-      variables: {
-        _id: AUTH.getProfile().data._id,
-        applicationsId: applicationsId,
-      },
-    });
-    window.location.reload();
+    console.log("Attempting to delete application with ID:", applicationsId); // Debug line
+
+    try {
+      const result = await deleteApplication({
+        variables: {
+          _id: AUTH.getProfile().data._id,
+          applicationsId: applicationsId,
+        },
+      });
+      console.log("Delete application result:", result); // Debug line
+
+// setApplications(prevApplications => prevApplications.filter(app => app.id !== applicationsId));
+
+
+      // Update the state variable after the deletion is successful
+      setApplications((prevApplications) => {
+        const newApplications = prevApplications.filter(
+          (app) => app.id !== applicationsId
+        );
+        console.log("New applications array:", newApplications); // Debug line
+        return newApplications;
+      });
+    } catch (error) {
+      console.error("Error deleting application:", error);
+    }
   };
-  const applications = data?.applications.applications || [];
-  console.log(applications);
 
   const columns = [
-    // { field: "id", headerName: "ID" },
     {
       field: "appliedOn",
       headerName: "Date Applied",
-      // type: "date",
       flex: 1,
       headerAlign: "left",
       align: "left",
