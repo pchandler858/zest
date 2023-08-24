@@ -1,9 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { ProSidebar, Menu, MenuItem } from "react-pro-sidebar";
 import "react-pro-sidebar/dist/css/styles.css";
-import { Box, IconButton, Typography, useTheme } from "@mui/material";
+import {
+  Box,
+  IconButton,
+  Typography,
+  useTheme,
+  Button,
+  TextField,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+} from "@mui/material";
 import { Link } from "react-router-dom";
-import { tokens } from "../../theme";
+import { tokens, ThemeContext } from "../../theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import ContactsOutlinedIcon from "@mui/icons-material/ContactsOutlined";
 import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
@@ -12,35 +24,67 @@ import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import PieChartOutlineOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
-
-import FormDialog from "../../components/FormDialog";
 import { GET_PROFILEPICTURE } from "../../utils/queries";
-import { useQuery } from "@apollo/client";
+import { useQuery, useMutation } from "@apollo/client";
 import AUTH from "../../utils/auth";
-
-const Item = ({ title, to, icon, selected, setSelected }) => {
-  const theme = useTheme();
-  const colors = tokens(theme.palette.mode);
-  return (
-    <MenuItem
-      active={selected === title}
-      style={{ color: colors.grey[100] }}
-      onClick={() => setSelected(title)}
-      icon={icon}
-    >
-      <Typography>{title}</Typography>
-      <Link to={to} />
-    </MenuItem>
-  );
-};
+import { ADD_PROFILEPICTURE } from "../../utils/mutations";
+import { Formik } from "formik";
+import { useNavigate } from "react-router-dom";
 
 const Sidebar = () => {
+  // Sidebar states and functions
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("Dashboard");
 
+  const { loading, data, refetch } = useQuery(GET_PROFILEPICTURE, {
+    variables: {
+      _id: AUTH.getProfile().data._id,
+    },
+  });
+
+  useEffect(() => {
+    refetch().then((newData) => {
+      if (newData?.data?.profilePicture.profilePicture[0]) {
+        setProfilePictureUrl(
+          newData.data.profilePicture.profilePicture[0].pictureUrl
+        );
+      }
+    });
+  }, []);
+
+  console.log("Profile picture data:", data);
+
+  let profilePicture = "";
+  if (data?.profilePicture.profilePicture[0]) {
+    profilePicture = data?.profilePicture.profilePicture[0].pictureUrl;
+  } else {
+    profilePicture =
+      "https://static.vecteezy.com/system/resources/previews/008/302/512/original/eps10-grey-user-solid-icon-or-logo-in-simple-flat-trendy-modern-style-isolated-on-white-background-free-vector.jpg";
+  }
+  // FormDialog states and functions
   const [open, setOpen] = useState(false);
+  const [profilePictureUrl, setProfilePictureUrl] = useState(profilePicture);
+  const [addProfilePicture] = useMutation(ADD_PROFILEPICTURE);
+  const navigate = useNavigate();
+
+  const handleFormSubmit = async (values) => {
+    try {
+      const { data } = await addProfilePicture({
+        variables: {
+          _id: AUTH.getProfile().data._id,
+          pictureUrl: values.pictureUrl,
+        },
+      });
+      if (data) {
+        setProfilePictureUrl(values.pictureUrl);
+      }
+      onClose();
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -50,44 +94,9 @@ const Sidebar = () => {
     setOpen(false);
   };
 
-  const { loading, data } = useQuery(GET_PROFILEPICTURE, {
-    variables: {
-      _id: AUTH.getProfile().data._id,
-    },
-  });
-  console.log(data);
-
-  let profilePicture = "";
-  if (data?.profilePicture.profilePicture[0]) {
-    profilePicture = data?.profilePicture.profilePicture[0].pictureUrl;
-  } else {
-    profilePicture =
-      "https://static.vecteezy.com/system/resources/previews/008/302/512/original/eps10-grey-user-solid-icon-or-logo-in-simple-flat-trendy-modern-style-isolated-on-white-background-free-vector.jpg";
-  }
-
-  console.log(profilePicture);
-
   const handleToggleCollapse = () => {
-    if (window.innerWidth >= 800) {
-      setIsCollapsed(!isCollapsed);
-    }
+    setIsCollapsed(!isCollapsed);
   };
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 800) {
-        setIsCollapsed(true);
-      } else {
-        setIsCollapsed(false);
-      }
-    };
-
-    window.addEventListener("resize", handleResize);
-
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
 
   return (
     <Box
@@ -111,37 +120,31 @@ const Sidebar = () => {
     >
       <ProSidebar collapsed={isCollapsed}>
         <Menu iconShape="square">
-          {/* logo and menu button */}
-          {window.innerWidth >= 800 && (
-            <MenuItem
-              onClick={handleToggleCollapse}
-              icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
-              sx={{
-                margin: "10px 0 20px 0",
-                color: colors.grey[100],
-                display: window.innerWidth < 800 ? "none" : "block",
-              }}
-            >
-              {!isCollapsed && (
-                <Box
-                  display="flex"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  ml="15px"
-                >
-                  <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
-                    <MenuOutlinedIcon />
-                  </IconButton>
-                </Box>
-              )}
-            </MenuItem>
-          )}
-
-          {/* user info  */}
+          <MenuItem
+            onClick={handleToggleCollapse}
+            icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
+            sx={{
+              margin: "10px 0 20px 0",
+              color: colors.grey[100],
+              display: window.innerWidth < 800 ? "none" : "block",
+            }}
+          >
+            {!isCollapsed && (
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                ml="15px"
+              >
+                <IconButton onClick={() => setIsCollapsed(!isCollapsed)}>
+                  <MenuOutlinedIcon />
+                </IconButton>
+              </Box>
+            )}
+          </MenuItem>
 
           {!isCollapsed && (
             <Box mb="25px">
-              <FormDialog open={open} onClose={handleClose}></FormDialog>
               <Box display="flex" justifyContent="center" alignItems="center">
                 <img
                   onClick={handleClickOpen}
@@ -149,7 +152,7 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={profilePicture}
+                  src={profilePictureUrl}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
@@ -169,38 +172,46 @@ const Sidebar = () => {
             </Box>
           )}
 
-          {/* menu items */}
           <Box paddingLeft={isCollapsed ? undefined : "10X"}>
-            <Item
-              title="Dashboard"
-              to="/"
+            <MenuItem
+              active={selected === "Dashboard"}
+              style={{ color: colors.grey[100] }}
+              onClick={() => setSelected("Dashboard")}
               icon={<HomeOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            >
+              <Typography>Dashboard</Typography>
+              <Link to="/" />
+            </MenuItem>
 
-            <Item
-              title="Applications"
-              to="/applications"
+            <MenuItem
+              active={selected === "Applications"}
+              style={{ color: colors.grey[100] }}
+              onClick={() => setSelected("Applications")}
               icon={<WorkOutlineIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Contacts"
-              to="/contacts"
-              icon={<ContactsOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            >
+              <Typography>Applications</Typography>
+              <Link to="/applications" />
+            </MenuItem>
 
-            <Item
-              title="Calendar"
-              to="/calendar"
+            <MenuItem
+              active={selected === "Contacts"}
+              style={{ color: colors.grey[100] }}
+              onClick={() => setSelected("Contacts")}
+              icon={<ContactsOutlinedIcon />}
+            >
+              <Typography>Contacts</Typography>
+              <Link to="/contacts" />
+            </MenuItem>
+
+            <MenuItem
+              active={selected === "Calendar"}
+              style={{ color: colors.grey[100] }}
+              onClick={() => setSelected("Calendar")}
               icon={<CalendarTodayOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            >
+              <Typography>Calendar</Typography>
+              <Link to="/calendar" />
+            </MenuItem>
 
             <Typography
               variant="h6"
@@ -211,30 +222,99 @@ const Sidebar = () => {
             >
               Charts
             </Typography>
-            <Item
-              title="Bar Chart"
-              to="/bar"
+
+            <MenuItem
+              active={selected === "Bar Chart"}
+              style={{ color: colors.grey[100] }}
+              onClick={() => setSelected("Bar Chart")}
               icon={<BarChartOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Pie Chart"
-              to="/pie"
+            >
+              <Typography>Bar Chart</Typography>
+              <Link to="/bar" />
+            </MenuItem>
+
+            <MenuItem
+              active={selected === "Pie Chart"}
+              style={{ color: colors.grey[100] }}
+              onClick={() => setSelected("Pie Chart")}
               icon={<PieChartOutlineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
-            <Item
-              title="Line Chart"
-              to="/line"
+            >
+              <Typography>Pie Chart</Typography>
+              <Link to="/pie" />
+            </MenuItem>
+
+            <MenuItem
+              active={selected === "Line Chart"}
+              style={{ color: colors.grey[100] }}
+              onClick={() => setSelected("Line Chart")}
               icon={<TimelineOutlinedIcon />}
-              selected={selected}
-              setSelected={setSelected}
-            />
+            >
+              <Typography>Line Chart</Typography>
+              <Link to="/line" />
+            </MenuItem>
           </Box>
         </Menu>
       </ProSidebar>
+
+      <Dialog open={open} onClose={handleClose}>
+        <DialogTitle>Profile Picture</DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            Please enter a URL to a hosted image and click apply.
+          </DialogContentText>
+          <Formik
+            onSubmit={handleFormSubmit}
+            initialValues={{ pictureUrl: "" }}
+          >
+            {(props) => {
+              const {
+                values,
+                errors,
+                touched,
+                handleChange,
+                handleBlur,
+                handleSubmit,
+              } = props;
+              return (
+                <form onSubmit={handleSubmit}>
+                  <TextField
+                    autoFocus
+                    margin="dense"
+                    name="pictureUrl"
+                    label="Picture URL"
+                    type="text"
+                    fullWidth
+                    variant="standard"
+                    value={values.pictureUrl}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    error={!!touched.pictureUrl && !!errors.pictureUrl}
+                    helperText={touched.pictureUrl && errors.pictureUrl}
+                  />
+                  <DialogActions>
+                    <Button
+                      onClick={handleClose}
+                      sx={{ color: colors.greenAccent[600] }}
+                    >
+                      Cancel
+                    </Button>
+                    <Button
+                      type="submit"
+                      value="Submit"
+                      onClick={() => {
+                        handleClose();
+                      }}
+                      sx={{ color: colors.greenAccent[600] }}
+                    >
+                      Apply
+                    </Button>
+                  </DialogActions>
+                </form>
+              );
+            }}
+          </Formik>
+        </DialogContent>
+      </Dialog>
     </Box>
   );
 };
