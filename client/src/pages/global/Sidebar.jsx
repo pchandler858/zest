@@ -98,6 +98,31 @@ const Sidebar = () => {
     setIsCollapsed(!isCollapsed);
   };
 
+  const handleResize = () => {
+    console.log("Window resized:", window.innerWidth); // Debugging line
+    if (window.innerWidth < 800) {
+      setIsCollapsed(true);
+    } else {
+      setIsCollapsed(false);
+    }
+  };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth < 800) {
+        setIsCollapsed(true);
+      } else {
+        setIsCollapsed(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <Box
       sx={{
