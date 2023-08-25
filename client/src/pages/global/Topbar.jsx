@@ -15,6 +15,7 @@ import {
   DialogContentText,
   Button,
 } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Topbar = () => {
   const [loggedIn, setLoggedIn] = useState(AuthService.isUserLoggedIn());
@@ -22,14 +23,18 @@ const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ThemeContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     setLoggedIn(AuthService.isUserLoggedIn());
   }, []);
 
   const handleLogout = () => {
-    AuthService.logout();
-    setLoggedIn(false);
+    navigate("/");
+    setTimeout(() => {
+      AuthService.logout();
+      setLoggedIn(false);
+    }, 100); // 100ms delay
   };
 
   return (
