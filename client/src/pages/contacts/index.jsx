@@ -126,6 +126,7 @@ const Contacts = () => {
         {showContactForm && (
           <ContactForm refetch={refetch} onSuccess={handleToggleContactForm} />
         )}
+        {!showContactForm && (
         <Box display="flex" justifyContent="start" mb="20px">
           <Button
             component={Link}
@@ -137,6 +138,7 @@ const Contacts = () => {
             Add New Contact
           </Button>
         </Box>
+        )}
         <DataGrid
           rows={contacts}
           columns={columns}

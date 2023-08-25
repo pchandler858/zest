@@ -69,6 +69,10 @@ const ContactForm = ({ refetch, onSuccess }) => {
     }
   };
 
+  const handleCancel = () => {
+    onSuccess();
+  };
+
   return (
     <Box m="20px">
       <Header title="Create Contact" subtitle="Create new lead!" />
@@ -189,8 +193,17 @@ const ContactForm = ({ refetch, onSuccess }) => {
                 color="secondary"
                 variant="contained"
                 value="Submit"
+                sx={{ mr: "10px" }}
               >
                 Create New Contact
+              </Button>
+              <Button
+                type="button"
+                color="secondary"
+                variant="contained"
+                onClick={handleCancel}
+              >
+                Cancel
               </Button>
             </Box>
           </form>
