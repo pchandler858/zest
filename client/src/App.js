@@ -1,7 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { ThemeContext, useMode } from "./theme";
 import { ThemeProvider, CssBaseline } from "@mui/material";
-// import { Routes, Route } from "react-router-dom";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Topbar from "./pages/global/Topbar";
 import Sidebar from "./pages/global/Sidebar";
@@ -47,9 +47,13 @@ const client = new ApolloClient({
 
 function App() {
   const { colorMode, theme } = useMode();
-
   const isAuthenticated = Auth.loggedIn();
   // const isAuthenticated = true;
+  useEffect(() => {
+    if (performance.navigation.type === 1 && isAuthenticated) {
+      window.location.href = "/";
+    }
+  }, [isAuthenticated]);
 
   return (
     <ApolloProvider client={client}>
