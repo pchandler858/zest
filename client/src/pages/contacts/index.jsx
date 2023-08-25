@@ -14,6 +14,7 @@ import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import ContactForm from "../contactForm";
 
 const Contacts = () => {
+
   const { loading, data, refetch } = useQuery(GET_CONTACTS, {
     variables: {
       _id: AUTH.getProfile().data._id,
@@ -122,28 +123,46 @@ const Contacts = () => {
         title="Contacts"
         subtitle="List of contacts for future reference"
       />
-      <Box m="40px 0 0 0" height="75vh">
+      <Box
+        m="40px 0 0 0"
+        height="75vh"
+        sx={{
+          "& .MuiDataGrid-root": {
+            border: "none",
+          },
+          "& .MuiDataGrid-cell": {
+            borderBottom: "none",
+          },
+          "& .MuiDataGrid-columnHeaders": {
+            backgroundColor: colors.blueAccent[700],
+            borderBottom: "none",
+          },
+          "& .MuiDataGrid-virtualScroller": {
+            backgroundColor: colors.primary[400],
+          },
+          "& .MuiDataGrid-footerContainer": {
+            borderTip: "none",
+            backgroundColor: colors.blueAccent[700],
+          },
+        }}
+      >
         {showContactForm && (
           <ContactForm refetch={refetch} onSuccess={handleToggleContactForm} />
         )}
         {!showContactForm && (
-        <Box display="flex" justifyContent="start" mb="20px">
-          <Button
-            component={Link}
-            to="#"
-            variant="contained"
-            color="secondary"
-            onClick={handleToggleContactForm}
-          >
-            Add New Contact
-          </Button>
-        </Box>
+          <Box display="flex" justifyContent="start" mb="20px">
+            <Button
+              component={Link}
+              to="#"
+              variant="contained"
+              color="secondary"
+              onClick={handleToggleContactForm}
+            >
+              Add New Contact
+            </Button>
+          </Box>
         )}
-        <DataGrid
-          rows={contacts}
-          columns={columns}
-          components={{ Toolbar: GridToolbar }}
-        />
+        <DataGrid rows={contacts} columns={columns} components={{ Toolbar: GridToolbar }} />
       </Box>
     </Box>
   );
