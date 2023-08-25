@@ -4,8 +4,8 @@ import * as React from "react";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 import { ADD_CONTACT } from "../../utils/mutations";
+import { GET_CONTACTS } from "../../utils/queries";
 import { useMutation } from "@apollo/client";
-import { useState } from "react";
 import AUTH from "../../utils/auth";
 import { useNavigate } from "react-router-dom";
 
@@ -19,15 +19,34 @@ const initialValues = {
   address2: "",
 };
 
-const phoneRegExp = /^(\+0?1\s)?\(?\d{3}\)?[\s.-]\d{3}[\s.-]\d{4}$/;
-
-const ContactForm = () => {
+const ContactForm = ({ refetch }) => {
   const navigate = useNavigate();
   const isNotMobile = useMediaQuery("(min-width: 600px)");
-  // const [formState, setFormState] = useState(initialValues);
-  const [addContact] = useMutation(ADD_CONTACT);
+  const [addContact] = useMutation(ADD_CONTACT, {
+    update(cache, { data: { addContact } }) {
+      try {
+        const { contacts } =
+          cache.readQuery({
+            query: GET_CONTACTS,
+            variables: { _id: AUTH.getProfile().data._id },
+          }) || {};
+
+        if (contacts && contacts.length > 0) {
+          cache.writeQuery({
+            query: GET_CONTACTS,
+            variables: { _id: AUTH.getProfile().data._id },
+            data: {
+              contacts: [...contacts, addContact],
+            },
+          });
+        }
+      } catch (error) {
+        console.error("Error updating cache:", error);
+      }
+    },
+  });
+
   const handleFormSubmit = async (values) => {
-    console.log(values);
     try {
       const { data } = await addContact({
         variables: {
@@ -41,13 +60,13 @@ const ContactForm = () => {
           address2: values.address2,
         },
       });
-      console.log(data);
-      window.location.href = "/contacts";
-      // navigate("/contacts");
+      refetch();
+      navigate("/contacts");
     } catch (e) {
       console.error(e);
     }
   };
+
   return (
     <Box m="20px">
       <Header title="Create Contact" subtitle="Create new lead!" />

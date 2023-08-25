@@ -1,3 +1,4 @@
+import React, { useState, useEffect } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
 import { tokens } from "../../theme.js";
@@ -6,21 +7,21 @@ import { Link } from "react-router-dom";
 import { GET_CONTACTS } from "../../utils/queries.js";
 import { DELETE_CONTACT } from "../../utils/mutations.js";
 import { useQuery, useMutation } from "@apollo/client";
-import { useState, useEffect } from "react";
 import AUTH from "../../utils/auth";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
+import ContactForm from "../contactForm";
 
 const Contacts = () => {
-  const { loading, data } = useQuery(GET_CONTACTS, {
+  const { loading, data, refetch } = useQuery(GET_CONTACTS, {
     variables: {
       _id: AUTH.getProfile().data._id,
     },
   });
   const [deleteContact] = useMutation(DELETE_CONTACT);
 
-  // Create a state variable to hold the contacts data
   const [contacts, setContacts] = useState([]);
+  const [showContactForm, setShowContactForm] = useState(false); // State variable for showing the form
 
   useEffect(() => {
     if (data?.contacts?.contacts) {
@@ -28,9 +29,7 @@ const Contacts = () => {
     }
   }, [data]);
 
-  const handleDeleteContact = async (e) => {
-    const contactsId =
-      e.currentTarget.parentElement.parentElement.getAttribute("data-id");
+  const handleDeleteContact = async (contactsId) => {
     try {
       await deleteContact({
         variables: {
@@ -48,6 +47,10 @@ const Contacts = () => {
     }
   };
 
+  const handleToggleContactForm = () => {
+    setShowContactForm((prevShowForm) => !prevShowForm);
+  };
+
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
 
@@ -56,19 +59,16 @@ const Contacts = () => {
       field: "firstName",
       headerName: "First Name",
       flex: 1,
-      cellClassName: "name-column--cell",
     },
     {
       field: "lastName",
       headerName: "Last Name",
       flex: 1,
-      cellClassName: "name-column--cell",
     },
     {
       field: "companyName",
       headerName: "Company Name",
       flex: 1,
-      cellClassName: "companyName-column--cell",
     },
     {
       field: "phone",
@@ -107,7 +107,10 @@ const Contacts = () => {
       headerName: "Delete",
       flex: 1,
       renderCell: (params) => (
-        <Button color="secondary" onClick={handleDeleteContact}>
+        <Button
+          color="secondary"
+          onClick={() => handleDeleteContact(params.row.id)}
+        >
           <HighlightOffOutlinedIcon />
         </Button>
       ),
@@ -120,41 +123,17 @@ const Contacts = () => {
         title="Contacts"
         subtitle="List of contacts for future reference"
       />
-      <Box
-        m="40px 0 0 0"
-        height="75vh"
-        sx={{
-          "& .MuiDataGrid-root": {
-            border: "none",
-          },
-          "& .MuiDataGrid-cell": {
-            borderBottom: "none",
-          },
-          "& .name-column--cell": {
-            color: colors.greenAccent[300],
-          },
-          "& .MuiDataGrid-columnHeaders": {
-            backgroundColor: colors.blueAccent[700],
-            borderBottom: "none",
-          },
-          "& .MuiDataGrid-virtualScroller": {
-            backgroundColor: colors.primary[400],
-          },
-          "& .MuiDataGrid-footerContainer": {
-            borderTip: "none",
-            backgroundColor: colors.blueAccent[700],
-          },
-          "& .MuiDataGrid-toolbarContainer .MuiButton-text": {
-            color: `${colors.grey[100]} !important`,
-          },
-        }}
-      >
+      <Box m="40px 0 0 0" height="75vh">
+        {/* Show the ContactForm component only if showContactForm is true */}
+        {showContactForm && <ContactForm refetch={refetch} />}
         <Box display="flex" justifyContent="start" mb="20px">
+          {/* Toggle the showContactForm state when the button is clicked */}
           <Button
             component={Link}
-            to="/contactForm"
+            to="#"
             variant="contained"
             color="secondary"
+            onClick={handleToggleContactForm}
           >
             Add New Contact
           </Button>
