@@ -49,11 +49,11 @@ function App() {
   const { colorMode, theme } = useMode();
   const isAuthenticated = Auth.loggedIn();
   // const isAuthenticated = true;
-  useEffect(() => {
-    if (performance.navigation.type === 1 && isAuthenticated) {
-      window.location.href = "/";
-    }
-  }, [isAuthenticated]);
+  // useEffect(() => {
+  //   if (performance.navigation.type === 1 && isAuthenticated) {
+  //     window.location.href = "/";
+  //   }
+  // }, [isAuthenticated]);
 
   return (
     <ApolloProvider client={client}>
