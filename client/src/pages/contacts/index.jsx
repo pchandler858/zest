@@ -1,3 +1,4 @@
+// Contacts.js
 import React, { useState, useEffect } from "react";
 import { Box, Button, useTheme } from "@mui/material";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
@@ -21,7 +22,7 @@ const Contacts = () => {
   const [deleteContact] = useMutation(DELETE_CONTACT);
 
   const [contacts, setContacts] = useState([]);
-  const [showContactForm, setShowContactForm] = useState(false); // State variable for showing the form
+  const [showContactForm, setShowContactForm] = useState(false);
 
   useEffect(() => {
     if (data?.contacts?.contacts) {
@@ -37,8 +38,6 @@ const Contacts = () => {
           contactsId: contactsId,
         },
       });
-
-      // Update the state variable after the deletion is successful
       setContacts((prevContacts) =>
         prevContacts.filter((contact) => contact.id !== contactsId)
       );
@@ -48,7 +47,7 @@ const Contacts = () => {
   };
 
   const handleToggleContactForm = () => {
-    setShowContactForm((prevShowForm) => !prevShowForm);
+    setShowContactForm(!showContactForm);
   };
 
   const theme = useTheme();
@@ -124,10 +123,10 @@ const Contacts = () => {
         subtitle="List of contacts for future reference"
       />
       <Box m="40px 0 0 0" height="75vh">
-        {/* Show the ContactForm component only if showContactForm is true */}
-        {showContactForm && <ContactForm refetch={refetch} />}
+        {showContactForm && (
+          <ContactForm refetch={refetch} onSuccess={handleToggleContactForm} />
+        )}
         <Box display="flex" justifyContent="start" mb="20px">
-          {/* Toggle the showContactForm state when the button is clicked */}
           <Button
             component={Link}
             to="#"

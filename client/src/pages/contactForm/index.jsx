@@ -1,3 +1,4 @@
+// ContactForm.js
 import { Box, Button, TextField } from "@mui/material";
 import { Formik } from "formik";
 import * as React from "react";
@@ -19,7 +20,7 @@ const initialValues = {
   address2: "",
 };
 
-const ContactForm = ({ refetch }) => {
+const ContactForm = ({ refetch, onSuccess }) => {
   const navigate = useNavigate();
   const isNotMobile = useMediaQuery("(min-width: 600px)");
   const [addContact] = useMutation(ADD_CONTACT, {
@@ -61,6 +62,7 @@ const ContactForm = ({ refetch }) => {
         },
       });
       refetch();
+      onSuccess();
       navigate("/contacts");
     } catch (e) {
       console.error(e);
