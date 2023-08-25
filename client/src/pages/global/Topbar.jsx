@@ -23,18 +23,20 @@ const Topbar = () => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
   const colorMode = useContext(ThemeContext);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   useEffect(() => {
     setLoggedIn(AuthService.isUserLoggedIn());
   }, []);
 
   const handleLogout = () => {
-    navigate("/");
-    setTimeout(() => {
-      AuthService.logout();
-      setLoggedIn(false);
-    }, 100); // 100ms delay
+    // navigate("/");
+    AuthService.logout();
+    setLoggedIn(false);
+    // setTimeout(() => {
+
+    //   setLoggedIn(false);
+    // }, 100); // 100ms delay
   };
 
   return (
