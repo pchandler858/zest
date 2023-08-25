@@ -29,6 +29,7 @@
   "homepage": "https://github.com/pchandler858/Project-3#readme",
   "dependencies": {
     "concurrently": "^8.2.0",
+    "dotenv": "^16.3.1",
     "jwt-decode": "^2.2.0"
   }
 }
